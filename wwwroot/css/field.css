@@ -1,0 +1,50 @@
+﻿.main-div {
+    display: flex;
+    justify-content: space-around;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    /*display: grid;*/
+}
+
+th {
+    height: 50px;
+    width: 50px;
+}
+
+button {
+    background-color: lightblue;
+    padding: 23px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: yellow;
+}
+
+.button-renew {
+    background-color: greenyellow;
+    cursor: pointer;
+    height: 50px;
+    width: 100px;
+    padding: 0;
+
+    /*
+        padding: 16px 16px;
+        margin-right: 15%;
+    */
+
+    
+}
+
+.helper {
+    display: flex;
+    justify-content: space-between;
+    margin-top:2%;
+}
+
+.div-btn-renew {
+    margin-right: 2%;
+}
