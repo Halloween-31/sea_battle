@@ -274,7 +274,7 @@ async function clickToAttack() {
                     }
                 }, firstInterval)
 
-                let endOfTimeout = await setTimeout(async () => {
+                setTimeout(async () => {
                     this.style.backgroundColor = 'black';
                     clearInterval(timer);
 
@@ -286,6 +286,12 @@ async function clickToAttack() {
                         let responseEnemy = await fetch("/Game/attackAnswer");
 
                         let answer = await responseEnemy.json();
+
+                        if (answer == -1) {
+                            console.log("Результат атаки був пустий!");
+                            break;
+                        }
+
 
                         let arrOfTimeout = [];
 
@@ -356,6 +362,7 @@ async function clickToAttack() {
                     let isEnd = await fetch("/Game/isEnd/0"); // 0 - мій, 1 - ворога
                     let isEndRes = await isEnd.json();
                     if (isEndRes == true) {
+
                         let divWithH = document.querySelector("main > div > div");
 
                         let h3ToInsert = document.createElement('h3');

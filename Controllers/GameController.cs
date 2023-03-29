@@ -2,6 +2,7 @@
 using asp_MVC_letsTry.Models.Game_clasees;
 using asp_MVC_letsTry.Models.Helper_classes;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace asp_MVC_letsTry.Controllers
@@ -123,6 +124,11 @@ namespace asp_MVC_letsTry.Controllers
         public ActionResult attackAnswer()
         {
             List<XY> res = game.my_battle_field.startEnemyAttacking();
+
+            if(res.Count == 0)
+            {
+                return Json(-1);                
+            }
 
             int[][] arr = new int[res.Count][];
             for (int i = 0; i < res.Count; i++)

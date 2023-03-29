@@ -822,7 +822,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
             }
             return 0;
         }
-        public List<XY> startEnemyAttacking()           // обмеження на -- та ++
+        public List<XY> startEnemyAttacking()          
         {
             bool canGo = true;
             //int indexOfList = 0;
@@ -911,14 +911,14 @@ namespace asp_MVC_letsTry.Models.Game_clasees
                         return new List<XY> { newPos };
                     }
                 }
-                else
+                else //isHit == true
                 {
                     if (hited.Count == 1)
                     { 
                         canGo = false;
 
                         byte one = this.rand(0);
-                        if (one == 0)
+                        if (    (one == 0) && (direct[0] != false || direct[2] != false)    )
                         {
                             //  по х
                             byte two = this.rand(0);
@@ -973,7 +973,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                 if (BaseChecking(nextPos, ref canGo) == false)
                                 {
-                                    break;
+                                    continue;
                                 }
 
                                 if (canGo == false)
@@ -1037,7 +1037,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                 if (BaseChecking(nextPos, ref canGo) == false)
                                 {
-                                    break;
+                                    continue;
                                 }
 
                                 if (canGo == false)
@@ -1109,7 +1109,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                 if (BaseChecking(nextPos, ref canGo) == false)
                                 {
-                                    break;
+                                    continue;
                                 }
 
                                 if (canGo == false)
@@ -1172,7 +1172,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                 if (BaseChecking(nextPos, ref canGo) == false)
                                 {
-                                    break;
+                                    continue;
                                 }
 
                                 if (canGo == false)
@@ -1211,7 +1211,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                         if (BaseChecking(nextPos, ref canGo) == false)
                                         {
-                                            break;
+                                            continue;
                                         }
 
                                         indexOfFollowing++;
@@ -1229,7 +1229,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                         if (BaseChecking(nextPos, ref canGo) == false)
                                         {
-                                            break;
+                                            continue;
                                         }
 
                                         indexOfFollowing++;
@@ -1250,7 +1250,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                         if (BaseChecking(nextPos, ref canGo) == false)
                                         {
-                                            break;
+                                            continue;
                                         }
 
                                         indexOfFollowing++;
@@ -1268,7 +1268,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                         if (BaseChecking(nextPos, ref canGo) == false)
                                         {
-                                            break;
+                                            continue;
                                         }
 
                                         indexOfFollowing++;
@@ -1339,7 +1339,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                     if (BaseChecking(nextPos, ref canGo) == false)
                                     {
-                                        break;
+                                        continue;
                                     }
 
                                     final = new List<XY>(hited);
@@ -1394,7 +1394,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                     if (BaseChecking(nextPos, ref canGo) == false)
                                     {
-                                        break;
+                                        continue;
                                     }
 
                                     final = new List<XY>(hited);
@@ -1454,7 +1454,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                     if (BaseChecking(nextPos, ref canGo) == false)
                                     {
-                                        break;
+                                        continue;
                                     }
 
                                     final = new List<XY>(hited);
@@ -1509,7 +1509,7 @@ namespace asp_MVC_letsTry.Models.Game_clasees
 
                                     if (BaseChecking(nextPos, ref canGo) == false)
                                     {
-                                        break;
+                                        continue;
                                     }
 
                                     final = new List<XY>(hited);
