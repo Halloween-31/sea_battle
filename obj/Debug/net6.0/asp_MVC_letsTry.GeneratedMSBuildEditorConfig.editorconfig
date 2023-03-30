@@ -27,12 +27,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtXEluZGV4LmNzaHRtbA==
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm_try/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm/loginGame.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtXGxvZ2luR2FtZS5jc2h0bWw=
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm_try/loginGame_tryFetch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeVxsb2dpbkdhbWVfdHJ5RmV0Y2guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/Shared/Error.cshtml]

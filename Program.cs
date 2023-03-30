@@ -30,7 +30,7 @@ namespace asp_MVC_letsTry
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=loginForm}/{action=Index}/{id?}");
+                pattern: "{controller=loginForm_try}/{action=Index}/{id?}");
 
             app.Run();
         }

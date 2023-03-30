@@ -29,14 +29,7 @@ button:hover {
     cursor: pointer;
     height: 50px;
     width: 100px;
-    padding: 0;
-
-    /*
-        padding: 16px 16px;
-        margin-right: 15%;
-    */
-
-    
+    padding: 0;    
 }
 
 .helper {
