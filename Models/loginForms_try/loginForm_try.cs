@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
-namespace asp_MVC_letsTry.Models.loginForms
+namespace asp_MVC_letsTry.Models.loginForms_try
 {
     public class loginForm_try
     {

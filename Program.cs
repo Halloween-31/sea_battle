@@ -1,3 +1,4 @@
+using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
 
 namespace asp_MVC_letsTry
@@ -10,6 +11,9 @@ namespace asp_MVC_letsTry
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            AppDB_Content db = new AppDB_Content();
+            builder.Services.AddDbContext<AppDB_Content>();
 
             var app = builder.Build();
 
@@ -30,7 +34,7 @@ namespace asp_MVC_letsTry
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=loginForm_try}/{action=Index}/{id?}");
+                pattern: "{controller=loginForm_tryDB}/{action=Index}/{id?}");
 
             app.Run();
         }
