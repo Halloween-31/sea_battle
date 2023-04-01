@@ -3,7 +3,7 @@ for (let pos = 0; pos < myBtn.length; pos++) {
     myBtn[pos].positionXY = pos;
     myBtn[pos].addEventListener("click", clickOnMyBtn);
 }
-myBtn[0].addEventListener('click', myField);
+myBtn[0].addEventListener('dbclick', myField);
 
 
 let enemyBtn = document.querySelectorAll('div > div:last-child > table > tbody > tr > td > button');
@@ -199,6 +199,7 @@ async function clickToAttack() {
 
     if (this.style.backgroundColor == 'red' || this.style.backgroundColor == 'black') {
         alert("Ця клітинка вже вибрана! Точніше знищена!");
+        backToenable();
         return;
     }
 
@@ -208,6 +209,7 @@ async function clickToAttack() {
     let answer = await responseOfFull.json();
     if (answer == false) {
         alert("Виберіть всі кораьлі!");
+        backToenable();
         return;
     }
     //
@@ -234,8 +236,6 @@ async function clickToAttack() {
 
     let firstInterval = 500;
     let secondInterval = 2000;
-
-    let canFinish = false;
 
     switch (message) {
         case 1:
@@ -292,6 +292,9 @@ async function clickToAttack() {
                             break;
                         }
 
+                        if (answer == -2) {
+                            break;
+                        }
 
                         let arrOfTimeout = [];
 
@@ -310,13 +313,26 @@ async function clickToAttack() {
 
                                     let color = myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor;
 
-                                    let timer2 = setInterval(() => {
-                                        if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'black') {
-                                            myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'red';
-                                        } else if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'red') {
-                                            myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'black';
-                                        }
-                                    }, firstInterval);
+                                    let timer2;
+                                    if (color == 'red') {
+                                        timer2 = setInterval(() => {
+                                            if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'black') {
+                                                myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'red';
+                                            } else if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'red') {
+                                                myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'black';
+                                            }
+                                        }, firstInterval);
+                                    }
+
+                                    if (color == 'black') {
+                                        timer2 = setInterval(() => {
+                                            if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'black') {
+                                                myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'white';
+                                            } else if (myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor == 'white') {
+                                                myBtn[underArr[0] * 10 + underArr[1]].style.backgroundColor = 'black';
+                                            }
+                                        }, firstInterval);
+                                    }
 
                                     let interval = setTimeout(() => {
                                         clearInterval(timer2);
@@ -337,7 +353,7 @@ async function clickToAttack() {
                                         clearTimeout(someTimeout);
                                     }
 
-                                    deadShip(myBtn[((answer[0][0]) * 10 + (answer[0][1]))], 1);
+                                    deadShip(myBtn[((answer[0][0]) * 10 + (answer[0][1]))], 1, answer);
                                 }, secondInterval);
                                
                                 arrOfTimeout = [];
@@ -383,7 +399,9 @@ async function clickToAttack() {
 
                         for (let i = 0; i < resOfEnemyLocation.length; i++) {
                             for (let j = 0; j < resOfEnemyLocation[i].length; j++) {
-                                enemyBtn[resOfEnemyLocation[i][j]].style.backgroundColor = 'green';
+                                if (enemyBtn[resOfEnemyLocation[i][j]].style.backgroundColor != 'red') {
+                                    enemyBtn[resOfEnemyLocation[i][j]].style.backgroundColor = 'green';
+                                }
                             }
                         }
                     }
@@ -396,8 +414,14 @@ async function clickToAttack() {
         case -1:
             {
                 this.style.backgroundColor = 'red';
-                setTimeout(() => {
-                    deadShip(this, 0);
+                setTimeout(async () => {
+                    let deadShipAnswer = await fetch(`/Game/deadEnemyShip/${pos}`);
+                    let deadShipArr = await deadShipAnswer.json();
+                    if (deadShipArr == -1) {
+                        console.log("Не знайшло знищений корабель!");
+                        return;
+                    }
+                    deadShip(this, 0, deadShipArr);
                     setTimeout(() => {
                         backToenable();
                     }, secondInterval);
@@ -479,7 +503,7 @@ function backToenable() {
 
 
 //ще все не прцює але вже близко!!!!!!!!!!!!!!!1
-function deadShip(lastBtn, fieldIndex) {
+function deadShip(lastBtn, fieldIndex, someArr) {
     let pos = lastBtn.positionXY;
 
     let arrValue = [
@@ -495,67 +519,178 @@ function deadShip(lastBtn, fieldIndex) {
     let someBtn;
     if (fieldIndex == 0) {
         someBtn = enemyBtn;
-    } else if (fieldIndex == 1) {
-        someBtn = myBtn;
-    }
 
+        for (let position of someArr) {
+            if (position[0] != 11) {
+                let somePos = position[0] * 10 + position[1];
 
-    for (let k = 1; k < 5; k++) {
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (arrValue[i][j] != 0) {
+                try {
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
 
-                    if ((pos % 10) == 0) {
-                        if (j == 0) {
-                            continue;
-                        }
-                    }
-
-                    if ((pos % 10) == 9) {
-                        if (j == 2) {
-                            continue;
-                        }
-                    }
-
-                    if (pos < 10) {
-                        if (i == 0) {
-                            continue;
-                        }
-                    }
-
-                    if (pos > 90) {
-                        if (i == 2) {
-                            continue;
-                        }
-                    }
-
-                    if (someBtn[pos + arrValue[i][j]].style.backgroundColor != 'red') {
-                        someBtn[pos + arrValue[i][j]].style.backgroundColor = 'black';
-                    } else {
-                        if (k == 1) {
-                            nextPos[1] = pos + arrValue[i][j];
-                            nextPos[2] = pos + arrValue[i][j];
-                            nextPos[3] = pos + arrValue[i][j];
-                            nextPos[4] = pos + arrValue[i][j];
-                        } else {
-                            if (nextPos[0] < nextPos[1]) {
-                                if (nextPos[k - 1] < (pos + arrValue[i][j])) {
-                                    nextPos[k] = pos + arrValue[i][j];
+                            if ((somePos % 10) == 0) {
+                                if (j == 0) {
+                                    continue;
                                 }
+                            }
+
+                            if ((somePos % 10) == 9) {
+                                if (j == 2) {
+                                    continue;
+                                }
+                            }
+
+                            if (somePos < 10) {
+                                if (i == 0) {
+                                    continue;
+                                }
+                            }
+
+                            if (somePos > 90) {
+                                if (i == 2) {
+                                    continue;
+                                }
+                            }
+
+                            if ((somePos + arrValue[i][j] < 0) || (somePos + arrValue[i][j] > 99)) {
+                                continue;
+                            }
+
+                            if (someBtn[somePos + arrValue[i][j]].style.backgroundColor != 'red') {
+                                someBtn[somePos + arrValue[i][j]].style.backgroundColor = 'black';
+                            }
+                        }
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                    console.log(err.stack);
+                    console.log(someBtn);
+                }
+            }
+        }
+
+        // не вийшло так практично як хотілося
+        /*for (let k = 1; k < 5; k++) {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (arrValue[i][j] != 0) {
+
+                        if ((pos % 10) == 0) {
+                            if (j == 0) {
+                                continue;
+                            }
+                        }
+
+                        if ((pos % 10) == 9) {
+                            if (j == 2) {
+                                continue;
+                            }
+                        }
+
+                        if (pos < 10) {
+                            if (i == 0) {
+                                continue;
+                            }
+                        }
+
+                        if (pos > 90) {
+                            if (i == 2) {
+                                continue;
+                            }
+                        }
+
+                        if ((pos + arrValue[i][j] < 0) || (pos + arrValue[i][j] > 99)) {
+                            continue;
+                        }
+
+                        try {
+                            if (someBtn[pos + arrValue[i][j]].style.backgroundColor != 'red') {
+                                someBtn[pos + arrValue[i][j]].style.backgroundColor = 'black';
                             } else {
-                                if (nextPos[k - 1] > (pos + arrValue[i][j])) {
-                                    nextPos[k] = pos + arrValue[i][j];
+                                if (k == 1) {
+                                    nextPos[1] = pos + arrValue[i][j];
+                                    nextPos[2] = pos + arrValue[i][j];
+                                    nextPos[3] = pos + arrValue[i][j];
+                                    nextPos[4] = pos + arrValue[i][j];
+                                } else {
+                                    if (nextPos[0] < nextPos[1]) {
+                                        if (nextPos[k - 1] < (pos + arrValue[i][j])) {
+                                            nextPos[k] = pos + arrValue[i][j];
+                                        }
+                                    } else {
+                                        if (nextPos[k - 1] > (pos + arrValue[i][j])) {
+                                            nextPos[k] = pos + arrValue[i][j];
+                                        }
+                                    }
                                 }
-                            }                            
+                            }     
+                        }
+                        catch (err) {
+                            console.log(err);
+                            console.log(err.stack);
+                            console.log(someBtn);
                         }
                     }
                 }
             }
-        }
-        if (nextPos[k] != -1) {
-            pos = nextPos[k];
-        } else {
-            return;
+            if (nextPos[k] != -1) {
+                pos = nextPos[k];
+            } else {
+                return;
+            }
+        }*/
+    } else if (fieldIndex == 1) {
+        someBtn = myBtn;
+
+        for (let position of someArr) {
+            if (position[0] != 11) {
+                let somePos = position[0] * 10 + position[1];
+
+                try {
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+
+                            if ((somePos % 10) == 0) {
+                                if (j == 0) {
+                                    continue;
+                                }
+                            }
+
+                            if ((somePos % 10) == 9) {
+                                if (j == 2) {
+                                    continue;
+                                }
+                            }
+
+                            if (somePos < 10) {
+                                if (i == 0) {
+                                    continue;
+                                }
+                            }
+
+                            if (somePos > 90) {
+                                if (i == 2) {
+                                    continue;
+                                }
+                            }
+
+                            if ((somePos + arrValue[i][j] < 0) || (somePos + arrValue[i][j] > 99)) {
+                                continue;
+                            }
+
+                            if (someBtn[somePos + arrValue[i][j]].style.backgroundColor != 'red') {
+                                someBtn[somePos + arrValue[i][j]].style.backgroundColor = 'black';
+                            }
+                        }
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                    console.log(err.stack);
+                    console.log(someBtn);
+                }
+            }
         }
     }
 }

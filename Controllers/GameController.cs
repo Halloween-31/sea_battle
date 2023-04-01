@@ -1,5 +1,5 @@
-﻿using asp_MVC_letsTry.Models;
-using asp_MVC_letsTry.Models.Game_clasees;
+﻿using asp_MVC_letsTry.Models.Game_classes;
+using asp_MVC_letsTry.Models.Game_help_clasees;
 using asp_MVC_letsTry.Models.Helper_classes;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -130,6 +130,11 @@ namespace asp_MVC_letsTry.Controllers
                 return Json(-1);                
             }
 
+            if (res[0]._x == 12)
+            {
+                return Json(-2);
+            }
+
             int[][] arr = new int[res.Count][];
             for (int i = 0; i < res.Count; i++)
             {
@@ -173,6 +178,42 @@ namespace asp_MVC_letsTry.Controllers
                 {
                     arr[i][j] = (int)game.enemy_battle_field.ships[i].position[j]._x * 10 + (int)game.enemy_battle_field.ships[i].position[j]._y;
                 }
+            }
+
+            return Json(arr);
+        }
+        public ActionResult deadEnemyShip(int id)
+        {
+            ship deadShip = null;
+            foreach (ship someShip in game.enemy_battle_field.ships)
+            {
+                bool needBreak = false;
+                foreach (XY pos in someShip.position)
+                {
+                    if(pos == new XY((byte)(id / 10), (byte)(id - (id / 10) * 10)))
+                    {
+                        deadShip = someShip;
+                        needBreak = true;
+                        break;
+                    }
+                }
+                if(needBreak == true)
+                {
+                    break;
+                }
+            }
+
+            if(deadShip == null)
+            {
+                return Json(-1);
+            }
+
+            int[][] arr = new int[deadShip.length][];
+            for (int i = 0; i < deadShip.length; i++)
+            {
+                arr[i] = new int[2];
+                arr[i][0] = (int)deadShip.position[i]._x;
+                arr[i][1] = (int)deadShip.position[i]._y;
             }
 
             return Json(arr);

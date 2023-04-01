@@ -1,5 +1,5 @@
 ﻿using asp_MVC_letsTry.Models;
-using asp_MVC_letsTry.Models.Game_clasees;
+using asp_MVC_letsTry.Models.Game_classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

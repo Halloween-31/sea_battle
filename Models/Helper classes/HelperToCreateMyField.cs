@@ -1,4 +1,5 @@
-﻿using asp_MVC_letsTry.Models.Game_clasees;
+﻿using asp_MVC_letsTry.Models.Game_classes;
+using asp_MVC_letsTry.Models.Game_help_clasees;
 
 namespace asp_MVC_letsTry.Models.Helper_classes
 {
