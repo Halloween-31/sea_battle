@@ -41,9 +41,9 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             _y = (byte)(iPos - ((iPos / 10) * 10));
         }*/
 
-        public string ToString()
+        public override string ToString()
         {
-            string res = Convert.ToString(this._x);
+            string? res = Convert.ToString(this._x);
             res += Convert.ToString(this._y);
             return res;
         }
@@ -82,5 +82,21 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             return true;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if(obj is not null)
+            {
+                return obj is not null ? this == (XY)obj : false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

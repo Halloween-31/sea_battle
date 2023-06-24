@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "g9+WjaOdMwZ5xEjD5U6/EFkleW5og/Xh+Ff+019BfTw=",
+  "Hash": "vWtpnam3n/ykm7EGL7g8Ec0EZAm4cqqH0nykMXGGsrs=",
   "Source": "asp_MVC_letsTry",
   "BasePath": "_content/asp_MVC_letsTry",
   "Mode": "Default",
@@ -117,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\clickingEvents.js"
+    },
+    {
+      "Identity": "C:\\Users\\FireM\\source\\repos\\asp\\asp_MVC_letsTry\\wwwroot\\js\\homepageLink.js",
+      "SourceId": "asp_MVC_letsTry",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\FireM\\source\\repos\\asp\\asp_MVC_letsTry\\wwwroot\\",
+      "BasePath": "_content/asp_MVC_letsTry",
+      "RelativePath": "js/homepageLink.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\homepageLink.js"
     },
     {
       "Identity": "C:\\Users\\FireM\\source\\repos\\asp\\asp_MVC_letsTry\\wwwroot\\js\\making_table.js",

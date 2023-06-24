@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using asp_MVC_letsTry.Models.registrationForms;
 
 namespace asp_MVC_letsTry.Models
 {
     public class user
     {
-        [BindNever]
         public int id { get; set; }
 
         public string name { get; set; }

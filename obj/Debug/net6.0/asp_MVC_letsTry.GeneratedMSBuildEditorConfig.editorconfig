@@ -5,6 +5,7 @@ build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = asp_MVC_letsTry
 build_property.RootNamespace = asp_MVC_letsTry
@@ -27,14 +28,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForms_try/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3Jtc190cnlcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForms_try/loginGame_tryFetch.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3Jtc190cnlcbG9naW5HYW1lX3RyeUZldGNoLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm_tryDB/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeURCXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -55,12 +48,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeURCXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm_try/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/loginForm_try/loginGame_tryFetch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcbG9naW5Gb3JtX3RyeVxsb2dpbkdhbWVfdHJ5RmV0Y2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/registrationViews/logInForm/LogIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccmVnaXN0cmF0aW9uVmlld3NcbG9nSW5Gb3JtXExvZ0luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/registrationViews/singUpForm/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NccmVnaXN0cmF0aW9uVmlld3Ncc2luZ1VwRm9ybVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/user/HomePage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcdXNlclxIb21lUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/_ViewImports.cshtml]

@@ -1,4 +1,5 @@
-﻿using asp_MVC_letsTry.Models;
+﻿using asp_MVC_letsTry.DataBase;
+using asp_MVC_letsTry.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +8,12 @@ namespace asp_MVC_letsTry.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDB_Content _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDB_Content context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()

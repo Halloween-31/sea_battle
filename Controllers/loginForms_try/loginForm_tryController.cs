@@ -6,12 +6,19 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using asp_MVC_letsTry.Models.loginForms_try;
+using asp_MVC_letsTry.Models.registrationForms;
+using AutoMapper;
 
 namespace asp_MVC_letsTry.Controllers.loginForms_try
 {
     public class loginForm_tryController : Controller
     {
         //public loginForm _loginForm;
+        private readonly IMapper _mapper;
+        public loginForm_tryController(IMapper mapper) 
+        {
+            _mapper = mapper;
+        }
 
         public ActionResult Index()
         {

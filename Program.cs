@@ -1,5 +1,9 @@
 using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
+using Microsoft.AspNetCore.HttpOverrides;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using asp_MVC_letsTry.MyAutoMapper;
 
 namespace asp_MVC_letsTry
 {
@@ -15,6 +19,27 @@ namespace asp_MVC_letsTry
             AppDB_Content db = new AppDB_Content();
             builder.Services.AddDbContext<AppDB_Content>();
 
+            builder.Services.AddAutoMapper(typeof(MyMapper));
+
+            builder.Services.AddHttpContextAccessor();
+            //builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();          
+
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "MySessionCookie";
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.IsEssential = true;
+            });
+
+            /*//
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+            //*/
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,6 +50,12 @@ namespace asp_MVC_letsTry
                 app.UseHsts();
             }
 
+            app.UseSession();
+
+            /*
+            app.UseForwardedHeaders();
+            */
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -34,7 +65,7 @@ namespace asp_MVC_letsTry
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=loginForm_tryDB}/{action=Index}/{id?}");
+                pattern: "{controller=singUpForm}/{action=Create}/{id?}");
 
             app.Run();
         }

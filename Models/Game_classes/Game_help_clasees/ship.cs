@@ -35,7 +35,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             }
             this.isAlive = false;
         }
-        public string ToString()
+        public override string ToString()
         {
             string res = "";
             foreach (XY pos in position)

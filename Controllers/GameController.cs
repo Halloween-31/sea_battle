@@ -9,7 +9,7 @@ namespace asp_MVC_letsTry.Controllers
 {
     public class GameController : Controller
     {
-        private static Game game;
+        private static Game? game;
         public ActionResult GameField()
         {
             game = new Game();
@@ -25,13 +25,20 @@ namespace asp_MVC_letsTry.Controllers
         [HttpPost]
         public JsonResult click([FromBody]HelperToCreateMyField data)
         {
+            if(data is null)
+            {
+                data = new HelperToCreateMyField();
+                data.answer = 0;
+                return Json(data);
+            }
+
             if(this.checkIsFull() == true)
             {
                 data.answer = 0;
                 return Json(data);
             }
 
-            XY cell = new XY((byte)data.x, (byte)data.y);
+            XY cell = new XY(data.x is not null ? ((byte)data.x) : throw new Exception(), data.y is not null ? ((byte)data.y) : throw new Exception());
 
             /*if(data.answer == 1)
             {
@@ -39,7 +46,7 @@ namespace asp_MVC_letsTry.Controllers
                 return Json(data);
             }*/
 
-            int isThisNewCell = game.checkEverything(cell); // 0 - notNew, 1 - new
+            int? isThisNewCell = game?.checkEverything(cell); // 0 - notNew, 1 - new
     
             if(isThisNewCell == 1)
             {
@@ -51,11 +58,6 @@ namespace asp_MVC_letsTry.Controllers
                 data.answer = 0;
                 return Json(data);
             }
-
-
-            //game.my_battle_field
-
-            return Json(null);
         }
 
         [HttpPost]

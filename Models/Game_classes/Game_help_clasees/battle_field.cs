@@ -1629,7 +1629,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
 
             return true;
         }
-        private string ToString()
+        public override string ToString()
         {
             string res = "";
             foreach (ship sh in this.ships)
