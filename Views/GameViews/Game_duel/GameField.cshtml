@@ -1,0 +1,136 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Duel";
+}
+@model Game
+
+<div style="display:flex; justify-content:space-between">
+    <div>
+        <div align="center">
+            <h1>
+                Гра "Морський бій"
+            </h1>
+        </div>
+        <div class="main-div">
+            <div>
+                <h2>Ви</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>0</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>1</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>2</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>3</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>4</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>5</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>6</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>7</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>8</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>9</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                    <tfoot>
+                        <tr><td> </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div>
+                <h2>Противник</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>0</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>1</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>2</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>3</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>4</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>5</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>6</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>7</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>8</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                        <tr><th>9</th><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td><td><button> </button></td></tr>
+                    <tfoot>
+                        <tr><td> </td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="helper">
+            <div>
+                <p style="margin-left: 3%; width: 75%">
+                    Спочатку створюєш 1 кораблик довжиною 4, потім 2 кораблика довжиною 3, 3 - довжною 2; і 4 - довжиною 1.
+                </p>
+            </div>           
+        </div>
+    </div>    
+    <div>
+        <div>
+            <button class="open-button">Chat</button>
+        </div>
+        <div class="chat-popup" id="myForm">
+            <div class="messages">
+
+            </div>
+            <form class="form-container">
+                <h3>Chat with</h3>
+                <label for="msg"><b>Message</b></label>
+                <div class="container" style="overflow-y: scroll; height: auto">
+                    <div class="div-msg" style="display:none">
+                        <p class="name-time"><b>Sasha:</b><span>11:30am</span></p>
+                        <p class="msg-text">Сійо</p>
+                    </div>
+                </div>
+                <textarea placeholder="Type message.." name="msg" required></textarea>
+
+                <input type="submit" class="btn" value="Send" />
+                <!-- <button type="submit" class="btn">Send</button> -->
+                <button type="button" class="cancel">Close</button>
+            </form>
+        </div>
+    </div>    
+</div>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js" type="module"></script>
+<script src="~/js/ts/signalr_client/signalr_client.js" type="module" asp-append-version="true"></script>
+<script src="~/js/ts/duel_events/duel_events.js" type="module" asp-append-version="true"></script>
+<script src="~/js/ts/chat_client/chat_client.js" type="module" asp-append-version="true"></script>
+
+<!--
+
+
+<script src="~/js/clickingEvents.js" type="module" asp-append-version="true"></script>
+<script src="~/js/site.js" type="module" asp-append-version="true"></script>
+<script src="~/js/ts/chat_client.js" asp-append-version="true"></script>
+
+
+
+    <script src="~/js/signalr_client.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+-->

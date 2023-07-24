@@ -17,5 +17,7 @@ namespace asp_MVC_letsTry.Models.registrationForms
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "Невірна пошта")]
         public string email { get; set; }
+
+        public logInForm() { }
     }
 }

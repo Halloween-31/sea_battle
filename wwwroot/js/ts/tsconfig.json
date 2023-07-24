@@ -1,0 +1,13 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "outDir": "",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "lib": [ "ES6", "DOM" ]
+  }
+}

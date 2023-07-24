@@ -16,8 +16,12 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\FireM\source\repos\asp\asp_MVC_letsTry
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/Game/GameField.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVxHYW1lRmllbGQuY3NodG1s
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/GameViews/Game/GameField.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVZpZXdzXEdhbWVcR2FtZUZpZWxkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/GameViews/Game_duel/GameField.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR2FtZVZpZXdzXEdhbWVfZHVlbFxHYW1lRmllbGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/FireM/source/repos/asp/asp_MVC_letsTry/Views/Home/Index.cshtml]

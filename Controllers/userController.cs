@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
 using asp_MVC_letsTry.Models.registrationForms;
+using asp_MVC_letsTry.SignalR;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace asp_MVC_letsTry.Controllers
 {    
@@ -15,6 +18,7 @@ namespace asp_MVC_letsTry.Controllers
     {
         private readonly AppDB_Content _context;
         private readonly ISession _session;
+        private readonly IResponseCookies _cookies;
         private int? id;
         private int? CurrentUserId
         {
@@ -42,12 +46,14 @@ namespace asp_MVC_letsTry.Controllers
             }
         }
         
-        public userController(AppDB_Content context, IHttpContextAccessor session)
+        public userController(AppDB_Content context, IHttpContextAccessor accessor)
         {
             _context = context;            
-            _session = session.HttpContext.Session;
-        }                
+            _session = accessor.HttpContext.Session;
+            _cookies = accessor.HttpContext.Response.Cookies;
+        }
 
+        [Authorize]
         public async Task<IActionResult> HomePage(int? id)
         {
             if (id == null || _context.Users == null)
@@ -56,14 +62,17 @@ namespace asp_MVC_letsTry.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.id == id);            
             if (user == null)
             {
                 return NotFound();
             }
             CurrentUserId = id;
             _session.SetInt32("id", (int)CurrentUserId);
-            
+            _session.SetString("isLoggined", "true");
+
+            _cookies.Append("MyEmail", user.email);
+
             return View(user);                          
         }
 
@@ -71,6 +80,39 @@ namespace asp_MVC_letsTry.Controllers
         public JsonResult GetCurrentUserId()
         {
             return Json(_session.GetInt32("id"));            
+        }
+        [HttpPut]
+        public async Task SetCurrentConId([FromBody]string? id)
+        {
+            int? userID = _session.GetInt32("id");
+            if(userID.HasValue)
+            {
+                var user = await _context.Users
+                    .FirstOrDefaultAsync(m => m.id == userID);
+                if (user != null)
+                {
+                    //user.conId = id; //chat.GetConnectionId();
+                }
+                _context.SaveChanges();
+            }
+        }
+        [HttpPost]
+        public async Task<JsonResult> IsEmailExists([FromBody]string? email)
+        {
+            var find = await _context.Users.FirstOrDefaultAsync(m => m.email == email);
+            return find is null ? Json(false) : Json(true);
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetMyName([FromBody] string? email)
+        {
+            var find = await _context.Users.FirstOrDefaultAsync(m => m.email == email);
+            return find is null ? Json(null) : Json(new { find.name, find.surname });
+        }
+        [HttpPost]
+        public async Task<JsonResult> GetMyEmail([FromBody]int? id)
+        {
+            var find = await _context.Users.FirstOrDefaultAsync(m => m.id == id);
+            return find is null ? Json(null) : Json(find.email);
         }
     }
 }

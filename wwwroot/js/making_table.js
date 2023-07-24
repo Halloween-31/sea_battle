@@ -74,14 +74,14 @@
 
     table_field.innerHTML = inTable;
 
-    let divToInsert = document.querySelector('div > div > div:last-child');
+    let divToInsert = document.querySelector('.main-div > div:last-child');
 
     if (divToInsert != null) {
         divToInsert.append(table_field); // .insertAdjacentHTML('beforeend', table_field); // ніби оцей другий метод кращий
 
         table_field = document.createElement('table');  // .cloneNode(true) 
         table_field.innerHTML = inTable;
-        divToInsert = document.querySelector('div > div > div:first-child');
+        divToInsert = document.querySelector('.main-div > div:first-child');
         divToInsert.append(table_field);
         //divToInsert.insertAdjacentHTML('beforeend', table_field); //не спрацював певно через \n
 

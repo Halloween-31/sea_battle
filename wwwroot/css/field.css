@@ -3,6 +3,10 @@
     justify-content: space-around;
 }
 
+table {
+    margin: 3%
+}
+
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;

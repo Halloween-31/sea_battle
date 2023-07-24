@@ -12,11 +12,11 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         public bool hited = false;
         //
 
-        /*public XY()
+        public XY()
         {
             _x = null;
             _y = null;
-        }*/
+        }
         public XY(byte x, byte y)
         {
             _x = x;

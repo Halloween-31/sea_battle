@@ -14,6 +14,7 @@
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.typescript.msbuild\5.1.5\build\Microsoft.TypeScript.MSBuild.props" Condition="Exists('$(NuGetPackageRoot)microsoft.typescript.msbuild\5.1.5\build\Microsoft.TypeScript.MSBuild.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.4\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.4\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.18\build\net6.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.18\build\net6.0\Microsoft.EntityFrameworkCore.Design.props')" />
   </ImportGroup>
@@ -21,6 +22,8 @@
     <PkgMessagePackAnalyzer Condition=" '$(PkgMessagePackAnalyzer)' == '' ">C:\Users\FireM\.nuget\packages\messagepackanalyzer\2.1.152</PkgMessagePackAnalyzer>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\FireM\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.2</PkgMicrosoft_CodeAnalysis_Analyzers>
     <PkgMicrosoft_CodeAnalysis_AnalyzerUtilities Condition=" '$(PkgMicrosoft_CodeAnalysis_AnalyzerUtilities)' == '' ">C:\Users\FireM\.nuget\packages\microsoft.codeanalysis.analyzerutilities\3.3.0</PkgMicrosoft_CodeAnalysis_AnalyzerUtilities>
+    <PkgMicrosoft_TypeScript_MSBuild Condition=" '$(PkgMicrosoft_TypeScript_MSBuild)' == '' ">C:\Users\FireM\.nuget\packages\microsoft.typescript.msbuild\5.1.5</PkgMicrosoft_TypeScript_MSBuild>
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\FireM\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.18</PkgMicrosoft_EntityFrameworkCore_Tools>
+    <PkgjQuery Condition=" '$(PkgjQuery)' == '' ">C:\Users\FireM\.nuget\packages\jquery\1.6.4</PkgjQuery>
   </PropertyGroup>
 </Project>

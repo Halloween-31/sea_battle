@@ -65,3 +65,31 @@ for (let pos = 0; pos < myBtn.length; pos++) {
     myBtn[pos].positionXY = pos;
     myBtn[pos].addEventListener("click", clickOnMyBtn);
 }*/
+
+
+
+
+
+
+
+
+/*
+{
+  "name": "asp_mvc_letstry",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "main": "/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "go": "node wwwroot/js/ts/tsINjs/signalr_client.js"   //doesnt work properly
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@microsoft/signalr": "^7.0.7"
+  }
+}
+*/

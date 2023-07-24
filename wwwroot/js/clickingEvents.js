@@ -379,7 +379,7 @@ async function clickToAttack() {
                     let isEndRes = await isEnd.json();
                     if (isEndRes == true) {
 
-                        let divWithH = document.querySelector("main > div > div");
+                        let divWithH = document.querySelector("main > div > div > div");
 
                         let h3ToInsert = document.createElement('h3');
                         h3ToInsert.textContent = "Ви програли!";
@@ -431,7 +431,7 @@ async function clickToAttack() {
                 let isEnd = await fetch("/Game/isEnd/1");
                 let isEndRes = await isEnd.json();
                 if (isEndRes == true) {
-                    let divWithH = document.querySelector("main > div > div");
+                    let divWithH = document.querySelector("main > div > div > div");
 
                     let h3ToInsert = document.createElement('h3');
                     h3ToInsert.textContent = "Ви виграли!";

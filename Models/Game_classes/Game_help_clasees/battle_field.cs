@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Reflection.Metadata.Ecma335;
+//using System.Text.Json.Serialization;
 
 namespace asp_MVC_letsTry.Models.Game_help_clasees
 {
@@ -8,19 +10,20 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
     {
         public List<ship> ships { get; set; }
 
-        private static bool isConnected = false;
-        private static byte choise;
+        [JsonProperty] private static bool isConnected = false;
+        [JsonIgnore] private static byte choise;
         public bool full = false;
 
-        private static bool isHit = false;
+        [JsonIgnore] private static bool isHit = false;
         private static int[,] arr = new int[10, 10];
-        private static bool[] direct = new bool[4] { true, true, true, true };
-        private List<XY> hited = new List<XY>();
-        private ship hitedShip = new ship();
-        private static int indexOfFollowing = 0;
+        [JsonIgnore] private static bool[] direct = new bool[4] { true, true, true, true };
+        [JsonIgnore] private List<XY> hited = new List<XY>();
+        [JsonIgnore] private ship hitedShip = new ship();
+        [JsonIgnore] private static int indexOfFollowing = 0;
+
         public battle_field()
         {
-            ships = new List<ship>
+            /*ships = new List<ship>
             {
                 new ship(4),
                 new ship(3),
@@ -32,7 +35,24 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 new ship(1),
                 new ship(1),
                 new ship(1)
-            };
+            };*/
+
+            if(ships == null)
+            {
+                ships = new List<ship>()
+                {
+                     new ship(4),
+                    new ship(3),
+                    new ship(3),
+                    new ship(2),
+                    new ship(2),
+                    new ship(2),
+                    new ship(1),
+                    new ship(1),
+                    new ship(1),
+                    new ship(1)
+                };
+            }
 
             isConnected = false;
 
@@ -155,142 +175,156 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         }
         public bool lastCheck(XY cell)
         {
-            bool fullField = true;
-            foreach (ship someShip in ships)
+            try
             {
-                if (someShip.full == true)
+                bool fullField = true;
+                foreach (ship someShip in ships)
                 {
-                    continue;
-                }
-                fullField = false;
-
-                bool secondBreak = false;
-                byte indexOfEl = 0;
-
-                for (int i = 0; i < someShip.length; i++)
-                {
-                    indexOfEl = (byte)i;
-
-                    if (isConnected == false)
+                    if (someShip.full == true)
                     {
-                        if (someShip.position[i] == new XY(11, 11))
+                        continue;
+                    }
+                    fullField = false;
+
+                    bool secondBreak = false;
+                    byte indexOfEl = 0;
+
+                    for (int i = 0; i < someShip.length; i++)
+                    {
+                        indexOfEl = (byte)i;
+
+                        if (isConnected == false)
                         {
-                            someShip.position[i] = new XY(cell);
-                            secondBreak = true;
-
-                            if (someShip.length != 1)
+                            if (someShip.position[i] == new XY(11, 11))
                             {
-                                isConnected = true;
-                            }
+                                someShip.position[i] = new XY(cell);
+                                secondBreak = true;
 
+                                if (someShip.length != 1)
+                                {
+                                    isConnected = true;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if (isConnected == true)
+                        {
+                            if (someShip.position[i] == new XY(11, 11))
+                            {
+                                XY temp = new XY(cell);
+
+                                foreach (XY xy in someShip.position)
+                                {
+                                    if (someShip.position[1]._x == 11)
+                                    {
+                                        temp._x++;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._x--;
+
+                                        temp._x--;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._x++;
+
+                                        temp._y--;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._y++;
+
+                                        temp._y++;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._y--;
+                                    }
+                                    else
+                                    {
+                                        if (someShip.position[0]._x == someShip.position[1]._x)
+                                        {
+                                            temp._y--;
+                                            if (xy == temp)
+                                            {
+                                                someShip.position[i] = new XY(cell);
+                                                secondBreak = true;
+
+                                                break;
+                                            }
+                                            temp._y++;
+
+                                            temp._y++;
+                                            if (xy == temp)
+                                            {
+                                                someShip.position[i] = new XY(cell);
+                                                secondBreak = true;
+
+                                                break;
+                                            }
+                                            temp._y--;
+                                        }
+                                        else if (someShip.position[0]._y == someShip.position[1]._y)
+                                        {
+                                            temp._x--;
+                                            if (xy == temp)
+                                            {
+                                                someShip.position[i] = new XY(cell);
+                                                secondBreak = true;
+
+                                                break;
+                                            }
+                                            temp._x++;
+
+                                            temp._x++;
+                                            if (xy == temp)
+                                            {
+                                                someShip.position[i] = new XY(cell);
+                                                secondBreak = true;
+
+                                                break;
+                                            }
+                                            temp._x--;
+                                        }
+                                    }
+                                }
+
+                                if (secondBreak == false)
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+
+                        if (secondBreak == true)
+                        {
                             break;
                         }
                     }
 
-                    if (isConnected == true)
+                    if ((indexOfEl + 1) == someShip.length)
                     {
-                        if (someShip.position[i] == new XY(11, 11))
-                        {
-                            XY temp = new XY(cell);
-
-                            foreach (XY xy in someShip.position)
-                            {
-                                if (someShip.position[1]._x == 11)
-                                {
-                                    temp._x++;
-                                    if (xy == temp)
-                                    {
-                                        someShip.position[i] = new XY(cell);
-                                        secondBreak = true;
-
-                                        break;
-                                    }
-                                    temp._x--;
-
-                                    temp._x--;
-                                    if (xy == temp)
-                                    {
-                                        someShip.position[i] = new XY(cell);
-                                        secondBreak = true;
-
-                                        break;
-                                    }
-                                    temp._x++;
-
-                                    temp._y--;
-                                    if (xy == temp)
-                                    {
-                                        someShip.position[i] = new XY(cell);
-                                        secondBreak = true;
-
-                                        break;
-                                    }
-                                    temp._y++;
-
-                                    temp._y++;
-                                    if (xy == temp)
-                                    {
-                                        someShip.position[i] = new XY(cell);
-                                        secondBreak = true;
-
-                                        break;
-                                    }
-                                    temp._y--;
-                                }
-                                else
-                                {
-                                    if (someShip.position[0]._x == someShip.position[1]._x)
-                                    {
-                                        temp._y--;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._y++;
-
-                                        temp._y++;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._y--;
-                                    }
-                                    else if (someShip.position[0]._y == someShip.position[1]._y)
-                                    {
-                                        temp._x--;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._x++;
-
-                                        temp._x++;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._x--;
-                                    }
-                                }
-                            }
-
-                            if (secondBreak == false)
-                            {
-                                return false;
-                            }
-                        }
+                        someShip.full = true;
+                        isConnected = false;
                     }
 
                     if (secondBreak == true)
@@ -299,27 +333,20 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                     }
                 }
 
-                if ((indexOfEl + 1) == someShip.length)
+                // позицію додано
+                if (fullField == true)
                 {
-                    someShip.full = true;
-                    isConnected = false;
+                    return false;
                 }
-
-                if (secondBreak == true)
+                else
                 {
-                    break;
+                    return true;
                 }
             }
-
-            // позицію додано
-            if (fullField == true)
+            catch (Exception e)
             {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+                return false;                   
+            }            
         }
         private bool allIn(XY cell)
         {

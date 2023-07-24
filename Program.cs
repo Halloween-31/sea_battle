@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using asp_MVC_letsTry.MyAutoMapper;
+using asp_MVC_letsTry.SignalR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.SignalR;
+using asp_MVC_letsTry.Controllers;
 
 namespace asp_MVC_letsTry
 {
@@ -40,6 +44,20 @@ namespace asp_MVC_letsTry
             });
             //*/
 
+            builder.Services.AddSignalR(hubOptions =>
+            {
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
+                hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
+            });
+
+            builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt => opt.LoginPath = "/logInForm/LogIn");
+            builder.Services.AddAuthentication();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -56,16 +74,24 @@ namespace asp_MVC_letsTry
             app.UseForwardedHeaders();
             */
 
-            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseHttpsRedirection();     
+            
+            //? - вроді як wwwroot щоб точно юзати, але точно хз, тіпа якщо в інших файлах є тоже веб-файли
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            app.MapHub<Chat>("/chat");
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=singUpForm}/{action=Create}/{id?}");
+                pattern: "{controller=singUpForm}/{action=Create}/{id?}");                
 
             app.Run();
         }

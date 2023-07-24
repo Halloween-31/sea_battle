@@ -9,6 +9,9 @@ using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
 using asp_MVC_letsTry.Models.registrationForms;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace asp_MVC_letsTry.Controllers.registrationControllers
 {
@@ -34,7 +37,7 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("name,surname,password,email")] signUpForm user)
+        public async Task<IActionResult> Create([Bind("name,surname,password,email")] signUpForm user, IHttpContextAccessor context, string? returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -51,7 +54,19 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
 
                 _context.Add(newUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("HomePage", "user", new {id = newUser.id});
+
+                var claims = new List<Claim> { new Claim(ClaimTypes.Email, newUser.email),
+                    new Claim(ClaimTypes.Name, newUser.name),
+                    new Claim(ClaimTypes.Surname, newUser.surname)
+                };
+
+                // создаем объект ClaimsIdentity
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "MyCookiesAuthType");
+                // установка аутентификационных куки
+                await context.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+
+                return returnUrl is not null ? Redirect(returnUrl) : RedirectToAction("HomePage", "user", new { id = newUser.id });
             }
             return View("../registrationViews/singUpForm/Create", user);
         }

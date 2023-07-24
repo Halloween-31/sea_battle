@@ -1,8 +1,11 @@
 ﻿using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models.registrationForms;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace asp_MVC_letsTry.Controllers.registrationControllers
 {
@@ -10,11 +13,13 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
     {
         private readonly AppDB_Content _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _http_context;
 
-        public logInFormController(AppDB_Content context, IMapper mapping)
+        public logInFormController(AppDB_Content context, IMapper mapping, IHttpContextAccessor http_context)
         {
             _context = context;
             _mapper = mapping;
+            _http_context = http_context;
         }
 
         // GET: singUpForm/Create
@@ -25,7 +30,7 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("name,surname,password,email")] logInForm user)
+        public async Task<IActionResult> Create([Bind("password,email")] logInForm user, string? returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -34,10 +39,20 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
                 {
                     if (every.email == user.email && user.password == every.password)
                     {
-                        return RedirectToAction("HomePage", "user", new { id = every.id });
+                        var claims = new List<Claim> { new Claim(ClaimTypes.Email, every.email),
+                            new Claim(ClaimTypes.Name, every.name),
+                            new Claim(ClaimTypes.Surname, every.surname)
+                        };
+
+                        // создаем объект ClaimsIdentity
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "MyCookiesAuthType");
+                        // установка аутентификационных куки
+                        await _http_context.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                        return returnUrl is not null ? Redirect(returnUrl) : RedirectToAction("HomePage", "user", new { id = every.id });
                     }
-                    ModelState.AddModelError(string.Empty, "Неправильна пошта чи пароль!");
                 }             
+                ModelState.AddModelError(string.Empty, "Неправильна пошта чи пароль!");
             }
             return View("../registrationViews/logInForm/LogIn", user);
         }
