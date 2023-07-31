@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using asp_MVC_letsTry.DataBase;
+﻿using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models.loginForms_try;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace asp_MVC_letsTry.Controllers.loginForms_try

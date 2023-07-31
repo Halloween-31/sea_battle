@@ -2,17 +2,14 @@
 using asp_MVC_letsTry.Models.Game_classes;
 using asp_MVC_letsTry.Models.Game_help_clasees;
 using asp_MVC_letsTry.Models.Helper_classes;
-using asp_MVC_letsTry.SignalR;
+using asp_MVC_letsTry.SessionExtensions;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 
 namespace asp_MVC_letsTry.Controllers.GameControllers
 {
     public class GameController : Controller
     {
-        private static Game? game;
+        private Game? game;
         private readonly AppDB_Content _context;
         private readonly ISession _session;
         public GameController(AppDB_Content context, IHttpContextAccessor session)
@@ -23,11 +20,12 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
         public ActionResult GameField()
         {
             game = new Game();
+            _session.Set<Game>("game", game);
 
             // очищення фалйу
-            StreamWriter atacking = new StreamWriter("attack.txt", false);
+            /*StreamWriter atacking = new StreamWriter("attack.txt", false);
             atacking.WriteLine("");
-            atacking.Close();
+            atacking.Close();*/
 
             return View("../GameViews/Game/GameField");
         }
@@ -41,18 +39,24 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
         [HttpPost]
         public JsonResult click([FromBody] HelperToCreateMyField data)
         {
+            game = _session.Get<Game>("game");
+
             if (data is null)
             {
+                throw new ArgumentNullException(nameof(data));
+
+
                 data = new HelperToCreateMyField();
                 data.answer = 0;
                 return Json(data);
             }
 
-            if (checkIsFull() == true)
+            game.my_battle_field.isFull();
+            if (game.my_battle_field.full == true)
             {
                 data.answer = 0;
                 return Json(data);
-            }
+            }            
 
             XY cell = new XY(data.x is not null ? (byte)data.x : throw new Exception(), data.y is not null ? (byte)data.y : throw new Exception());
 
@@ -63,6 +67,12 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
             }*/
 
             int? isThisNewCell = game?.checkEverything(cell); // 0 - notNew, 1 - new
+            _session.Set<Game>("game", game);
+
+            if (isThisNewCell.HasValue == false)
+            {
+                throw new InvalidDataException();
+            }
 
             if (isThisNewCell == 1)
             {
@@ -75,10 +85,16 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 return Json(data);
             }
         }
-
+        /*public bool checkIsFull()
+        {
+            game.my_battle_field.isFull();
+            return game.my_battle_field.full;
+        }*/
         [HttpPost]
         public ActionResult checkEnemy([FromBody] int[][] data)
         {
+            game = _session.Get<Game>("game");
+
             int[][] mas = new int[10][];
 
             //data = new List<HelperToCheckEnemy>();
@@ -110,30 +126,39 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 }
             }*/
 
+            _session.Set<Game>("game", game);
+
             return Json(mas);
         }
         public bool renew()
         {
+            game = _session.Get<Game>("game");
+
             game.my_battle_field = new battle_field();
             game.enemy_battle_field = new battle_field();
             game.enemy_battle_field.creatingField();
 
+            _session.Set<Game>("game", game);
+
             return true;
-        }
-        public bool checkIsFull()
-        {
-            game.my_battle_field.isFull();
-            return game.my_battle_field.full;
-        }
+        }        
         public void myField()
         {
+            game = _session.Get<Game>("game");
+
             game.my_battle_field.createMyField();
+
+            _session.Set<Game>("game", game);
         }
         public JsonResult attacking([FromBody] HelperToAttack data)
         {
+            game = _session.Get<Game>("game");
+
             XY cell = new XY((byte)data.x, (byte)data.y);
 
             int isHit = game.enemy_battle_field.isItHit(cell); // 0 - не влучив, 1 - влучив, -1 - знищив
+
+            _session.Set<Game>("game", game);
 
             return Json(isHit);
 
@@ -141,6 +166,8 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
         }
         public ActionResult attackAnswer()
         {
+            game = _session.Get<Game>("game");
+
             List<XY> res = game.my_battle_field.startEnemyAttacking();
 
             if (res.Count == 0)
@@ -162,18 +189,22 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
             }
 
             // запис атаки ворога
-            StreamWriter atacking = new StreamWriter("attack.txt", true);
+            /*StreamWriter atacking = new StreamWriter("attack.txt", true);
             for (int i = 0; i < res.Count; i++)
             {
                 atacking.WriteLine(arr[i][0].ToString() + arr[i][1].ToString());
             }
-            atacking.Close();
+            atacking.Close();*/
             //
+
+            _session.Set<Game>("game", game);
 
             return Json(arr);
         }
         public ActionResult isEnd(int id) // 0 - мій, 1 - ворога
         {
+            game = _session.Get<Game>("game");
+
             bool isEnd;
             if (id == 0)
             {
@@ -183,10 +214,15 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
             {
                 isEnd = game.enemy_battle_field.isEnd();
             }
+
+            _session.Set<Game>("game", game);
+
             return Json(isEnd);
         }
         public ActionResult enemyField()
         {
+            game = _session.Get<Game>("game");
+
             int[][] arr = new int[game.enemy_battle_field.ships.Count][];
             for (int i = 0; i < game.enemy_battle_field.ships.Count; i++)
             {
@@ -198,10 +234,14 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 }
             }
 
+            _session.Set<Game>("game", game);
+
             return Json(arr);
         }
         public ActionResult deadEnemyShip(int id)
         {
+            game = _session.Get<Game>("game");
+
             ship deadShip = null;
             foreach (ship someShip in game.enemy_battle_field.ships)
             {
@@ -233,6 +273,8 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 arr[i][0] = (int)deadShip.position[i]._x;
                 arr[i][1] = (int)deadShip.position[i]._y;
             }
+
+            _session.Set<Game>("game", game);
 
             return Json(arr);
         }

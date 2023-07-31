@@ -1,13 +1,8 @@
 using asp_MVC_letsTry.DataBase;
-using asp_MVC_letsTry.Models;
-using Microsoft.AspNetCore.HttpOverrides;
-using AutoMapper;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using asp_MVC_letsTry.MyAutoMapper;
 using asp_MVC_letsTry.SignalR;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.SignalR;
-using asp_MVC_letsTry.Controllers;
 
 namespace asp_MVC_letsTry
 {
@@ -47,9 +42,9 @@ namespace asp_MVC_letsTry
             builder.Services.AddSignalR(hubOptions =>
             {
                 hubOptions.EnableDetailedErrors = true;
-                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
-                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
-                hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(System.Convert.ToDouble(10));
+                hubOptions.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(10);
+                hubOptions.HandshakeTimeout = TimeSpan.FromMinutes(10);
             });
 
             builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
@@ -77,8 +72,8 @@ namespace asp_MVC_letsTry
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseHttpsRedirection();     
-            
+            app.UseHttpsRedirection();
+
             //? - вроді як wwwroot щоб точно юзати, але точно хз, тіпа якщо в інших файлах є тоже веб-файли
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -87,11 +82,15 @@ namespace asp_MVC_letsTry
 
             app.UseAuthorization();
 
-            app.MapHub<Chat>("/chat");
+            app.MapHub<Chat>("/chat", options =>
+            {
+                options.LongPolling.PollTimeout = TimeSpan.FromMinutes(5.5);
+                options.TransportSendTimeout = TimeSpan.FromMinutes(5.5);
+            });
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=singUpForm}/{action=Create}/{id?}");                
+                pattern: "{controller=singUpForm}/{action=Create}/{id?}");
 
             app.Run();
         }

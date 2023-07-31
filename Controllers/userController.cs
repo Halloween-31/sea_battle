@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using asp_MVC_letsTry.DataBase;
+﻿using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
-using asp_MVC_letsTry.Models.registrationForms;
-using asp_MVC_letsTry.SignalR;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace asp_MVC_letsTry.Controllers
-{    
+{
     public class userController : Controller
     {
         private readonly AppDB_Content _context;
@@ -22,20 +14,20 @@ namespace asp_MVC_letsTry.Controllers
         private int? id;
         private int? CurrentUserId
         {
-            get 
+            get
             {
-                if(!id.HasValue)
+                if (!id.HasValue)
                 {
                     return -1;
-                }    
+                }
                 else
                 {
                     return id;
                 }
-            } 
+            }
             set
             {
-                if(!id.HasValue) 
+                if (!id.HasValue)
                 {
                     id = value;
                 }
@@ -45,10 +37,10 @@ namespace asp_MVC_letsTry.Controllers
                 }
             }
         }
-        
+
         public userController(AppDB_Content context, IHttpContextAccessor accessor)
         {
-            _context = context;            
+            _context = context;
             _session = accessor.HttpContext.Session;
             _cookies = accessor.HttpContext.Response.Cookies;
         }
@@ -62,7 +54,7 @@ namespace asp_MVC_letsTry.Controllers
             }
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.id == id);            
+                .FirstOrDefaultAsync(m => m.id == id);
             if (user == null)
             {
                 return NotFound();
@@ -73,19 +65,19 @@ namespace asp_MVC_letsTry.Controllers
 
             _cookies.Append("MyEmail", user.email);
 
-            return View(user);                          
+            return View(user);
         }
 
         [HttpGet]
         public JsonResult GetCurrentUserId()
         {
-            return Json(_session.GetInt32("id"));            
+            return Json(_session.GetInt32("id"));
         }
         [HttpPut]
-        public async Task SetCurrentConId([FromBody]string? id)
+        public async Task SetCurrentConId([FromBody] string? id)
         {
             int? userID = _session.GetInt32("id");
-            if(userID.HasValue)
+            if (userID.HasValue)
             {
                 var user = await _context.Users
                     .FirstOrDefaultAsync(m => m.id == userID);
@@ -97,7 +89,7 @@ namespace asp_MVC_letsTry.Controllers
             }
         }
         [HttpPost]
-        public async Task<JsonResult> IsEmailExists([FromBody]string? email)
+        public async Task<JsonResult> IsEmailExists([FromBody] string? email)
         {
             var find = await _context.Users.FirstOrDefaultAsync(m => m.email == email);
             return find is null ? Json(false) : Json(true);
@@ -109,7 +101,7 @@ namespace asp_MVC_letsTry.Controllers
             return find is null ? Json(null) : Json(new { find.name, find.surname });
         }
         [HttpPost]
-        public async Task<JsonResult> GetMyEmail([FromBody]int? id)
+        public async Task<JsonResult> GetMyEmail([FromBody] int? id)
         {
             var find = await _context.Users.FirstOrDefaultAsync(m => m.id == id);
             return find is null ? Json(null) : Json(find.email);

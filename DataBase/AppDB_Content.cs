@@ -1,7 +1,6 @@
 ﻿using asp_MVC_letsTry.Models;
-using Microsoft.EntityFrameworkCore;
 using asp_MVC_letsTry.Models.loginForms_try;
-using asp_MVC_letsTry.Models.registrationForms;
+using Microsoft.EntityFrameworkCore;
 
 namespace asp_MVC_letsTry.DataBase
 {
@@ -18,6 +17,6 @@ namespace asp_MVC_letsTry.DataBase
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=seabattle_users;Trusted_Connection=True;");
-        }        
+        }
     }
 }

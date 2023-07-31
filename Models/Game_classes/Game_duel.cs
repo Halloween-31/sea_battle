@@ -6,7 +6,7 @@ namespace asp_MVC_letsTry.Models.Game_classes
     {
         public battle_field first_battle_field;
         public battle_field second_battle_field;
-        public Game_duel() 
+        public Game_duel()
         {
             first_battle_field = new battle_field();
             second_battle_field = new battle_field();

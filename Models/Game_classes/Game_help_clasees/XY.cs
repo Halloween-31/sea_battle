@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using System.Xml.Linq;
+﻿using Newtonsoft.Json;
 
 namespace asp_MVC_letsTry.Models.Game_help_clasees
 {
@@ -9,7 +8,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         public byte? _y { get; set; }
 
         // змінна для попадання
-        public bool hited = false;
+        [JsonProperty] public bool hited = false;
         //
 
         public XY()
@@ -27,7 +26,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             _x = toCopy._x;
             _y = toCopy._y;
         }
-        
+
         /*public XY(int pos)
         {
             _x = (byte)(pos / 10);
@@ -54,23 +53,23 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         // чекнути чи можна в шарпах перевантажувати оператори
 
 
-        public static bool operator==(XY first, XY second)
+        public static bool operator ==(XY first, XY second)
         {
             /*if(first._x == null && first._y == null && second._x == null && second._y == null)
             {
                 return true;
             }*/
 
-            if(first._x == second._x)
+            if (first._x == second._x)
             {
-                if(first._y == second._y)
+                if (first._y == second._y)
                 {
                     return true;
                 }
             }
             return false;
         }
-        public static bool operator!=(XY first, XY second)
+        public static bool operator !=(XY first, XY second)
         {
             if (first._x == second._x)
             {
@@ -84,7 +83,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
 
         public override bool Equals(object? obj)
         {
-            if(obj is not null)
+            if (obj is not null)
             {
                 return obj is not null ? this == (XY)obj : false;
             }

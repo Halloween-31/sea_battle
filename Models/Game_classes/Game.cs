@@ -1,6 +1,4 @@
 ﻿using asp_MVC_letsTry.Models.Game_help_clasees;
-using Microsoft.JSInterop;
-using System.Transactions;
 
 namespace asp_MVC_letsTry.Models.Game_classes
 {

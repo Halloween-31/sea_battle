@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
-using System;
-using System.Reflection.Metadata.Ecma335;
+﻿using Newtonsoft.Json;
 //using System.Text.Json.Serialization;
 
 namespace asp_MVC_letsTry.Models.Game_help_clasees
@@ -11,15 +8,15 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         public List<ship> ships { get; set; }
 
         [JsonProperty] private static bool isConnected = false;
-        [JsonIgnore] private static byte choise;
-        public bool full = false;
+        [JsonProperty] private static byte choise;
+        [JsonProperty] public bool full = false;
 
-        [JsonIgnore] private static bool isHit = false;
-        private static int[,] arr = new int[10, 10];
-        [JsonIgnore] private static bool[] direct = new bool[4] { true, true, true, true };
-        [JsonIgnore] private List<XY> hited = new List<XY>();
-        [JsonIgnore] private ship hitedShip = new ship();
-        [JsonIgnore] private static int indexOfFollowing = 0;
+        [JsonProperty] private static bool isHit = false;
+        [JsonProperty] private static int[,] arr = new int[10, 10];
+        [JsonProperty] private static bool[] direct = new bool[4] { true, true, true, true };
+        [JsonProperty] private List<XY> hited = new List<XY>();
+        [JsonProperty] private ship hitedShip = new ship();
+        [JsonProperty] private static int indexOfFollowing = 0;
 
         public battle_field()
         {
@@ -37,7 +34,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 new ship(1)
             };*/
 
-            if(ships == null)
+            if (ships == null)
             {
                 ships = new List<ship>()
                 {
@@ -64,7 +61,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 }
             }
         }
-        private byte rand(byte choise) 
+        private byte rand(byte choise)
         {
             // 1 - 0-9; 0 - 0-1
             var randomer = new Random();
@@ -73,7 +70,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             {
                 ret = (byte)randomer.Next(0, 10);
             }
-            if(choise == 0)
+            if (choise == 0)
             {
                 ret = (byte)(randomer.Next(0, 10) % 2);
             }
@@ -174,157 +171,143 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             return true;
         }
         public bool lastCheck(XY cell)
-        {
-            try
+        {              
+            bool fullField = true;
+            foreach (ship someShip in ships)
             {
-                bool fullField = true;
-                foreach (ship someShip in ships)
+                if (someShip.full == true)
                 {
-                    if (someShip.full == true)
+                    continue;
+                }
+                fullField = false;
+
+                bool secondBreak = false;
+                byte indexOfEl = 0;
+
+                for (int i = 0; i < someShip.length; i++)
+                {
+                    indexOfEl = (byte)i;
+
+                    if (isConnected == false)
                     {
-                        continue;
-                    }
-                    fullField = false;
-
-                    bool secondBreak = false;
-                    byte indexOfEl = 0;
-
-                    for (int i = 0; i < someShip.length; i++)
-                    {
-                        indexOfEl = (byte)i;
-
-                        if (isConnected == false)
+                        if (someShip.position[i] == new XY(11, 11))
                         {
-                            if (someShip.position[i] == new XY(11, 11))
+                            someShip.position[i] = new XY(cell);
+                            secondBreak = true;
+
+                            if (someShip.length != 1)
                             {
-                                someShip.position[i] = new XY(cell);
-                                secondBreak = true;
-
-                                if (someShip.length != 1)
-                                {
-                                    isConnected = true;
-                                }
-
-                                break;
+                                isConnected = true;
                             }
-                        }
 
-                        if (isConnected == true)
-                        {
-                            if (someShip.position[i] == new XY(11, 11))
-                            {
-                                XY temp = new XY(cell);
-
-                                foreach (XY xy in someShip.position)
-                                {
-                                    if (someShip.position[1]._x == 11)
-                                    {
-                                        temp._x++;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._x--;
-
-                                        temp._x--;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._x++;
-
-                                        temp._y--;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._y++;
-
-                                        temp._y++;
-                                        if (xy == temp)
-                                        {
-                                            someShip.position[i] = new XY(cell);
-                                            secondBreak = true;
-
-                                            break;
-                                        }
-                                        temp._y--;
-                                    }
-                                    else
-                                    {
-                                        if (someShip.position[0]._x == someShip.position[1]._x)
-                                        {
-                                            temp._y--;
-                                            if (xy == temp)
-                                            {
-                                                someShip.position[i] = new XY(cell);
-                                                secondBreak = true;
-
-                                                break;
-                                            }
-                                            temp._y++;
-
-                                            temp._y++;
-                                            if (xy == temp)
-                                            {
-                                                someShip.position[i] = new XY(cell);
-                                                secondBreak = true;
-
-                                                break;
-                                            }
-                                            temp._y--;
-                                        }
-                                        else if (someShip.position[0]._y == someShip.position[1]._y)
-                                        {
-                                            temp._x--;
-                                            if (xy == temp)
-                                            {
-                                                someShip.position[i] = new XY(cell);
-                                                secondBreak = true;
-
-                                                break;
-                                            }
-                                            temp._x++;
-
-                                            temp._x++;
-                                            if (xy == temp)
-                                            {
-                                                someShip.position[i] = new XY(cell);
-                                                secondBreak = true;
-
-                                                break;
-                                            }
-                                            temp._x--;
-                                        }
-                                    }
-                                }
-
-                                if (secondBreak == false)
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-
-                        if (secondBreak == true)
-                        {
                             break;
                         }
                     }
 
-                    if ((indexOfEl + 1) == someShip.length)
+                    if (isConnected == true)
                     {
-                        someShip.full = true;
-                        isConnected = false;
+                        if (someShip.position[i] == new XY(11, 11))
+                        {
+                            XY temp = new XY(cell);
+
+                            foreach (XY xy in someShip.position)
+                            {
+                                if (someShip.position[1]._x == 11)
+                                {
+                                    temp._x++;
+                                    if (xy == temp)
+                                    {
+                                        someShip.position[i] = new XY(cell);
+                                        secondBreak = true;
+
+                                        break;
+                                    }
+                                    temp._x--;
+
+                                    temp._x--;
+                                    if (xy == temp)
+                                    {
+                                        someShip.position[i] = new XY(cell);
+                                        secondBreak = true;
+
+                                        break;
+                                    }
+                                    temp._x++;
+
+                                    temp._y--;
+                                    if (xy == temp)
+                                    {
+                                        someShip.position[i] = new XY(cell);
+                                        secondBreak = true;
+
+                                        break;
+                                    }
+                                    temp._y++;
+
+                                    temp._y++;
+                                    if (xy == temp)
+                                    {
+                                        someShip.position[i] = new XY(cell);
+                                        secondBreak = true;
+
+                                        break;
+                                    }
+                                    temp._y--;
+                                }
+                                else
+                                {
+                                    if (someShip.position[0]._x == someShip.position[1]._x)
+                                    {
+                                        temp._y--;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._y++;
+
+                                        temp._y++;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._y--;
+                                    }
+                                    else if (someShip.position[0]._y == someShip.position[1]._y)
+                                    {
+                                        temp._x--;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._x++;
+
+                                        temp._x++;
+                                        if (xy == temp)
+                                        {
+                                            someShip.position[i] = new XY(cell);
+                                            secondBreak = true;
+
+                                            break;
+                                        }
+                                        temp._x--;
+                                    }
+                                }
+                            }
+
+                            if (secondBreak == false)
+                            {
+                                return false;
+                            }
+                        }
                     }
 
                     if (secondBreak == true)
@@ -333,19 +316,26 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                     }
                 }
 
-                // позицію додано
-                if (fullField == true)
+                if ((indexOfEl + 1) == someShip.length)
                 {
-                    return false;
+                    someShip.full = true;
+                    isConnected = false;
                 }
-                else
+
+                if (secondBreak == true)
                 {
-                    return true;
+                    break;
                 }
             }
-            catch (Exception e)
+
+            // позицію додано
+            if (fullField == true)
             {
-                return false;                   
+                return false;
+            }
+            else
+            {
+                return true;
             }            
         }
         private bool allIn(XY cell)
@@ -520,16 +510,16 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                             {
                                 break;
                             }
-                            else 
+                            else
                             {
-                                if(rand(0) == 0)
+                                if (rand(0) == 0)
                                 {
                                     if (this.ships[i].position[0]._x == this.ships[i].position[1]._x)
                                     {
                                         // по х
-                                        if(temp_Y > this.ships[i].position[0]._y)
+                                        if (temp_Y > this.ships[i].position[0]._y)
                                         {
-                                            if((this.ships[i].position[0]._y - 1) >= 0)
+                                            if ((this.ships[i].position[0]._y - 1) >= 0)
                                             {
                                                 temp_Y = (byte)(this.ships[i].position[0]._y - 1);
                                             }
@@ -590,14 +580,14 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                                 }
                                 else
                                 {
-                                    if(choise == 0)
+                                    if (choise == 0)
                                     {
                                         choise = 1;
                                     }
                                     else
                                     {
                                         choise = 0;
-                                    }                                   
+                                    }
                                 }
                             }
                         }
@@ -610,9 +600,9 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
 
 
             // записуємо у файл розташування кораблів
-            StreamWriter shipsLocation = new StreamWriter("ships.txt", false);
+            /*StreamWriter shipsLocation = new StreamWriter("ships.txt", false);
             shipsLocation.WriteLine(this.ToString());
-            shipsLocation.Close();
+            shipsLocation.Close();*/
             //
 
 
@@ -628,142 +618,142 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
 
 
 
-                //foreach (ship _ship in this.ships)
-                //{
-                /*do
+            //foreach (ship _ship in this.ships)
+            //{
+            /*do
+            {
+                _ship.position[0]._x = rand(1);
+                _ship.position[0]._y = rand(1); //там сука було [1]
+
+                isConnected = true;
+            } while (allIn(_ship.position[0]) == false);  */
+
+            /*while(true)
+            {
+                _ship.position[0]._x = rand(1);
+                _ship.position[0]._y = rand(1);
+
+                if (allIn(_ship.position[0]) == true)
                 {
-                    _ship.position[0]._x = rand(1);
-                    _ship.position[0]._y = rand(1); //там сука було [1]
+                    break;
+                }
+            }*/
+            //}
 
-                    isConnected = true;
-                } while (allIn(_ship.position[0]) == false);  */
 
-                /*while(true)
+
+            /*foreach(ship someShip in ships)
+            {
+                for(int i = (someShip.length - 1); i >= 0; i--)
                 {
-                    _ship.position[0]._x = rand(1);
-                    _ship.position[0]._y = rand(1);
-
-                    if (allIn(_ship.position[0]) == true)
+                    /*do
                     {
-                        break;
-                    }
-                }*/
-                //}
-
-
-
-                /*foreach(ship someShip in ships)
-                {
-                    for(int i = (someShip.length - 1); i >= 0; i--)
-                    {
-                        /*do
+                        if (i == (someShip.length - 1))
                         {
-                            if (i == (someShip.length - 1))
-                            {
-                                someShip.position[i]._x = rand(1);
-                                someShip.position[i]._y = rand(1);
+                            someShip.position[i]._x = rand(1);
+                            someShip.position[i]._y = rand(1);
 
-                                isConnected = true;
-                            }
+                            isConnected = true;
+                        }
 
-                        } while ( (this.checkUniquePos(someShip.position[i]) == false) ||
-                        (this.checkCorners(someShip.position[i]) == false)   ||
-                        (this.lastCheck(someShip.position[i]) == false));*/
+                    } while ( (this.checkUniquePos(someShip.position[i]) == false) ||
+                    (this.checkCorners(someShip.position[i]) == false)   ||
+                    (this.lastCheck(someShip.position[i]) == false));*/
 
 
 
 
 
 
-                /*if(i != (someShip.length - 1))
+            /*if(i != (someShip.length - 1))
+            {
+                if(choise == 0)
                 {
-                    if(choise == 0)
+                    // по х
+                    someShip.position[i]._x = someShip.position[i + 1]._x;
+                    if(rand(0) == 0)
                     {
-                        // по х
-                        someShip.position[i]._x = someShip.position[i + 1]._x;
-                        if(rand(0) == 0)
+                        if ((someShip.position[i + 1]._y + 1) != 10)
                         {
-                            if ((someShip.position[i + 1]._y + 1) != 10)
-                            {
-                                someShip.position[i]._y = (byte)(someShip.position[i + 1]._y + 1);
-                            }
-                            else
-                            {
-                                byte? lessY = someShip.position[i + 1]._y;
-                                foreach (XY pos in someShip.position)
-                                {
-                                    if ((pos._y != null) && (pos._y < lessY))
-                                    {
-                                        lessY = pos._y;
-                                    }
-                                }
-                                someShip.position[i]._y = (byte)(lessY - 1);
-                            }
+                            someShip.position[i]._y = (byte)(someShip.position[i + 1]._y + 1);
                         }
                         else
                         {
-                            if ((someShip.position[i + 1]._y - 1) != -1)
+                            byte? lessY = someShip.position[i + 1]._y;
+                            foreach (XY pos in someShip.position)
                             {
-                                someShip.position[i]._y = (byte)(someShip.position[i + 1]._y - 1);
-                            }
-                            else
-                            {
-                                byte? mostY = someShip.position[i + 1]._y;
-                                foreach (XY pos in someShip.position)
+                                if ((pos._y != null) && (pos._y < lessY))
                                 {
-                                    if ((pos._y != null) && (pos._y > mostY))
-                                    {
-                                        mostY = pos._y;
-                                    }
+                                    lessY = pos._y;
                                 }
-                                someShip.position[i]._y = (byte)(mostY - 1);
                             }
+                            someShip.position[i]._y = (byte)(lessY - 1);
                         }
                     }
                     else
                     {
-                        // по у
-                        someShip.position[i]._y = someShip.position[i + 1]._y;
-                        if (rand(0) == 0)
+                        if ((someShip.position[i + 1]._y - 1) != -1)
                         {
-                            if ((someShip.position[i + 1]._x + 1) != 10)
-                            {
-                                someShip.position[i]._x = (byte)(someShip.position[i + 1]._x + 1);  
-                            }
-                            else
-                            {
-                                byte? lessX = someShip.position[i + 1]._x;
-                                foreach(XY pos in someShip.position)
-                                {
-                                    if((pos._x != null) && (pos._x < lessX))
-                                    {
-                                        lessX = pos._x;
-                                    }
-                                }
-                                someShip.position[i]._x = (byte)(lessX - 1);
-                            }
+                            someShip.position[i]._y = (byte)(someShip.position[i + 1]._y - 1);
                         }
                         else
                         {
-                            if ((someShip.position[i + 1]._x - 1) != -1)
+                            byte? mostY = someShip.position[i + 1]._y;
+                            foreach (XY pos in someShip.position)
                             {
-                                someShip.position[i]._x = (byte)(someShip.position[i + 1]._x - 1);
-                            }
-                            else
-                            {
-                                byte? mostX = someShip.position[i + 1]._x;
-                                foreach (XY pos in someShip.position)
+                                if ((pos._y != null) && (pos._y > mostY))
                                 {
-                                    if ((pos._x != null) && (pos._x > mostX))
-                                    {
-                                        mostX = pos._x;
-                                    }
+                                    mostY = pos._y;
                                 }
-                                someShip.position[i]._x = (byte)(mostX + 1);
                             }
+                            someShip.position[i]._y = (byte)(mostY - 1);
                         }
-                    }*/
-                //}
+                    }
+                }
+                else
+                {
+                    // по у
+                    someShip.position[i]._y = someShip.position[i + 1]._y;
+                    if (rand(0) == 0)
+                    {
+                        if ((someShip.position[i + 1]._x + 1) != 10)
+                        {
+                            someShip.position[i]._x = (byte)(someShip.position[i + 1]._x + 1);  
+                        }
+                        else
+                        {
+                            byte? lessX = someShip.position[i + 1]._x;
+                            foreach(XY pos in someShip.position)
+                            {
+                                if((pos._x != null) && (pos._x < lessX))
+                                {
+                                    lessX = pos._x;
+                                }
+                            }
+                            someShip.position[i]._x = (byte)(lessX - 1);
+                        }
+                    }
+                    else
+                    {
+                        if ((someShip.position[i + 1]._x - 1) != -1)
+                        {
+                            someShip.position[i]._x = (byte)(someShip.position[i + 1]._x - 1);
+                        }
+                        else
+                        {
+                            byte? mostX = someShip.position[i + 1]._x;
+                            foreach (XY pos in someShip.position)
+                            {
+                                if ((pos._x != null) && (pos._x > mostX))
+                                {
+                                    mostX = pos._x;
+                                }
+                            }
+                            someShip.position[i]._x = (byte)(mostX + 1);
+                        }
+                    }
+                }*/
+            //}
 
 
         }
@@ -816,7 +806,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             {
                 foreach (XY pos in someShip.position)
                 {
-                    if(pos == new XY(11, 11))
+                    if (pos == new XY(11, 11))
                     {
                         this.full = false;
                         return;
@@ -827,15 +817,15 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
         }
         public int isItHit(XY cell) // 0 - не влучив, 1 - влучив, -1 - знищив; для ворога аналогічно   
         {
-            foreach(ship someShip in this.ships)
+            foreach (ship someShip in this.ships)
             {
-                if(someShip.isAlive == false)
+                if (someShip.isAlive == false)
                 {
                     continue;
                 }
                 foreach (XY pos in someShip.position)
                 {
-                    if(pos == cell)
+                    if (pos == cell)
                     {
                         pos.hited = true;
                         someShip.isAliveShip();
@@ -849,9 +839,9 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             }
             return 0;
         }
-        public List<XY> startEnemyAttacking()          
+        public List<XY> startEnemyAttacking()
         {
-            if(this.isEnd() == true)
+            if (this.isEnd() == true)
             {
                 return new List<XY> { new XY(12, 12) };
             }
@@ -861,7 +851,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
 
             List<XY> final = new List<XY>();
 
-            while(canGo)
+            while (canGo)
             {
                 canGo = false;
 
@@ -877,7 +867,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                         {
                             for (int j = 0; j < 10; j++)
                             {
-                                if (newPos == new XY((byte)(arr[i, j] / 10), (byte)(arr[i, j] - ((arr[i, j] / 10) * 10) )))
+                                if (newPos == new XY((byte)(arr[i, j] / 10), (byte)(arr[i, j] - ((arr[i, j] / 10) * 10))))
                                 {
                                     needBreak = false;
                                     break;
@@ -924,7 +914,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                                     List<XY> res = new List<XY>(hited);
                                     hited.Clear();
                                     hitedShip = null;
-                                    direct = new bool[4] { true, true, true,  true };
+                                    direct = new bool[4] { true, true, true, true };
                                     res.Add(new XY(11, 11));
                                     return res;
                                 }
@@ -936,7 +926,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                         {
                             break;
                         }
-                    }                 
+                    }
 
                     if (canGo == false)
                     {
@@ -946,11 +936,11 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 else //isHit == true
                 {
                     if (hited.Count == 1)
-                    { 
+                    {
                         canGo = false;
 
                         byte one = this.rand(0);
-                        if (    (one == 0) && (direct[0] != false || direct[2] != false)    )
+                        if ((one == 0) && (direct[0] != false || direct[2] != false))
                         {
                             //  по х
                             byte two = this.rand(0);
@@ -958,7 +948,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                             {
                                 // позаду, 0
                                 XY nextPos = new XY(hited[hited.Count - 1]);
-                                if((nextPos._x - 1) != -1)
+                                if ((nextPos._x - 1) != -1)
                                 {
                                     nextPos._x--;
                                 }
@@ -1022,7 +1012,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                                 // попереду, 2
 
                                 XY nextPos = new XY(hited[hited.Count - 1]);
-                                if((nextPos._x + 1) != 10)
+                                if ((nextPos._x + 1) != 10)
                                 {
                                     nextPos._x++;
                                 }
@@ -1607,11 +1597,11 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                             List<XY> res = new List<XY>(hited);
                             hited.Clear();
                             hitedShip = null;
-                            direct = new bool[4] { true, true, true,  true };
+                            direct = new bool[4] { true, true, true, true };
                             res.Add(new XY(11, 11));
                             return res;
                         }
-                    }                   
+                    }
                 }
             }
 
@@ -1625,7 +1615,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if (nextPos == new XY((byte)(arr[i, j] / 10), (byte)(arr[i, j] - ((arr[i, j] / 10) * 10)   )))
+                    if (nextPos == new XY((byte)(arr[i, j] / 10), (byte)(arr[i, j] - ((arr[i, j] / 10) * 10))))
                     {
                         needBreak = true;
                         break;
@@ -1674,15 +1664,15 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        if((i == -1) && (((int)hitedShip.position[k]._x + i) == -1))
+                        if ((i == -1) && (((int)hitedShip.position[k]._x + i) == -1))
                         {
                             continue;
                         }
-                        if((i == 1) && (((int)hitedShip.position[k]._x + i) == 10))
+                        if ((i == 1) && (((int)hitedShip.position[k]._x + i) == 10))
                         {
                             continue;
                         }
-                        if((j == -1) && (((int)hitedShip.position[k]._y + j) == -1))
+                        if ((j == -1) && (((int)hitedShip.position[k]._y + j) == -1))
                         {
                             continue;
                         }
@@ -1697,7 +1687,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                         }
                     }
                 }
-            }   
+            }
         }
         public bool isEnd() // чи є ще живі кораблі
         {
@@ -1705,7 +1695,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             {
                 foreach (XY pos in someShip.position)
                 {
-                    if(pos.hited == false)
+                    if (pos.hited == false)
                     {
                         return false;
                     }

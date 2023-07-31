@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Server.IIS.Core;
-using System.Transactions;
+﻿using Newtonsoft.Json;
 
 namespace asp_MVC_letsTry.Models.Game_help_clasees
 {
@@ -7,8 +6,8 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
     {
         public byte length { get; set; }
         public List<XY> position { get; set; }
-        public bool full = false;
-        public bool isAlive = true;
+        [JsonProperty] public bool full = false;
+        [JsonProperty] public bool isAlive = true;
         public ship()
         {
             length = 0;
@@ -22,7 +21,7 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             {
                 position.Add(new XY(11, 11));
             }
-        }    
+        }
         public void isAliveShip() // можна заміниити не async, а івентами
         {
             for (int i = 0; i < this.length; i++)

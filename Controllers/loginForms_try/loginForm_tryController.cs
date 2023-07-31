@@ -1,13 +1,6 @@
-﻿using asp_MVC_letsTry.Models;
-using asp_MVC_letsTry.Models.Game_classes;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using asp_MVC_letsTry.Models.loginForms_try;
-using asp_MVC_letsTry.Models.registrationForms;
+﻿using asp_MVC_letsTry.Models.loginForms_try;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace asp_MVC_letsTry.Controllers.loginForms_try
 {
@@ -15,7 +8,7 @@ namespace asp_MVC_letsTry.Controllers.loginForms_try
     {
         //public loginForm _loginForm;
         private readonly IMapper _mapper;
-        public loginForm_tryController(IMapper mapper) 
+        public loginForm_tryController(IMapper mapper)
         {
             _mapper = mapper;
         }

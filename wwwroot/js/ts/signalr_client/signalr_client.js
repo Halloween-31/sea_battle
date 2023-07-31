@@ -28,19 +28,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
                     if (t[2]) _.ops.pop();
                     _.trys.pop(); continue;
-            //}
+            }
             op = body.call(thisArg, _);
         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import * as signalR from "../../../lib/microsoft/signalr/dist/browser/signalr.js";
+//import * as signalR from "../../../lib/microsoft/signalr/dist/browser/signalr.js";
 // в .js файлі коментуємо дану стрічку і вона буде брати дане значення з бібліотеки, яка
 // записана в .html файлі
 // дикий костиль
 var connection = new signalR.HubConnectionBuilder()
     .withUrl("/chat")
     .build();
+connection.serverTimeoutInMilliseconds = 600000;
 document.querySelector(".btn").addEventListener("click", function (e) { return __awaiter(void 0, void 0, void 0, function () {
     var textarea, msg, toEmail, urlParams, enemyEmail;
     return __generator(this, function (_a) {

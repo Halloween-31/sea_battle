@@ -51,7 +51,7 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
 
                         return returnUrl is not null ? Redirect(returnUrl) : RedirectToAction("HomePage", "user", new { id = every.id });
                     }
-                }             
+                }
                 ModelState.AddModelError(string.Empty, "Неправильна пошта чи пароль!");
             }
             return View("../registrationViews/logInForm/LogIn", user);

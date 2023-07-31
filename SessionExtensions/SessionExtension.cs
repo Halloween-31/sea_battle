@@ -1,8 +1,4 @@
-﻿using asp_MVC_letsTry.Models.Game_classes;
-using asp_MVC_letsTry.Models.Game_help_clasees;
-using Newtonsoft.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace asp_MVC_letsTry.SessionExtensions
 {
@@ -33,8 +29,8 @@ namespace asp_MVC_letsTry.SessionExtensions
         public static T? Get<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value is null ? default(T) : JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace});
-            
+            return value is null ? default(T) : JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace });
+
             //return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);            
 
 

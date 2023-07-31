@@ -7,6 +7,8 @@ const connection = new signalR.HubConnectionBuilder()
     .withUrl("/chat")
     .build();
 
+connection.serverTimeoutInMilliseconds = 600000;
+
 document.querySelector(".btn").addEventListener("click", async (e) => {
     e.preventDefault();
 

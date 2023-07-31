@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using asp_MVC_letsTry.DataBase;
+﻿using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
 using asp_MVC_letsTry.Models.registrationForms;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace asp_MVC_letsTry.Controllers.registrationControllers
 {
@@ -24,7 +19,7 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
         {
             _context = context;
             _mapper = mapping;
-        }       
+        }
 
         // GET: singUpForm/Create
         public IActionResult Create()
@@ -44,7 +39,7 @@ namespace asp_MVC_letsTry.Controllers.registrationControllers
                 var Users = await _context.Users.ToListAsync();
                 foreach (var every in Users)
                 {
-                    if(every.email == user.email)
+                    if (every.email == user.email)
                     {
                         ModelState.AddModelError(string.Empty, "Дана пошта вже зареєстрована!");
                         return View("../registrationViews/singUpForm/Create", user);

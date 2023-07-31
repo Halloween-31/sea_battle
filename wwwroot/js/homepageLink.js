@@ -24,6 +24,8 @@ try {
         .withUrl("/chat")
         .build();
 
+    hubConnection.serverTimeoutInMilliseconds = 600000;
+
     hubConnection.start()
         .then(function () {
             console.log("Connect is ok!");
@@ -77,8 +79,3 @@ function getCookie(name) {
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
-
-hubConnection.on("FullField", async (EnemyField) => {
-    alert("homepagelink!");
-});
