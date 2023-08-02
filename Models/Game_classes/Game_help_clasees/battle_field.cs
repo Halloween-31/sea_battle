@@ -1633,12 +1633,23 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
                 return false;
             }
 
+            // бо втрачається посилання через постійне створювання нового об'єкту через JSON
+            foreach(ship ship in this.ships)
+            {
+                if(hitedShip == ship)
+                {
+                    hitedShip = ship;
+                    break;
+                }
+            }
+            //
+
             foreach (XY pos in hitedShip.position)
             {
                 if (pos == nextPos)
                 {
-                    hited.Add(pos);
                     pos.hited = true;
+                    hited.Add(pos);
                     canGo = true;
                     break;
                 }

@@ -40,7 +40,8 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
             string senderStr = _httpContext.Request.Query["sender"];
             bool sender = System.Convert.ToBoolean(senderStr);
             battle_field field;
-            if (sender == true)
+            field = game.first_battle_field;
+            /*if (sender == true)
             {
                 field = game.first_battle_field;
             }
@@ -51,7 +52,7 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
             else
             {
                 throw new Exception();
-            }
+            }*/
 
             field.isFull();
             if (field.full)
@@ -71,7 +72,7 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
         {
             string senderStr = _httpContext.Request.Query["sender"];
             bool sender = System.Convert.ToBoolean(senderStr);
-            battle_field field;
+            battle_field field;            
             //беремо поле іншого гравця
             if (sender == true)
             {
@@ -218,11 +219,25 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 return Json(true);
             }
         }
-        public JsonResult deadEnemyShip(int id)
+        public JsonResult deadEnemyShip(int id, int fieldIndex) // 1 - моє, 0 - ворог
         {
             game = _session.Get<Game_duel>("game");
             ship deadShip = null;
-            foreach (ship someShip in game.second_battle_field.ships)
+            battle_field field = null;
+            if (fieldIndex == 1) 
+            {
+                field = game.first_battle_field;
+            }
+            else if(fieldIndex == 0)
+            { 
+               field = game.second_battle_field;
+            }
+            else
+            {
+                throw new InvalidDataException();
+            }
+
+            foreach (ship someShip in field.ships)
             {
                 bool needBreak = false;
                 foreach (XY pos in someShip.position)
@@ -240,7 +255,7 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 }
             }
 
-            if (deadShip == null)
+            if (deadShip is null)
             {
                 return Json(-1);
             }

@@ -44,5 +44,52 @@ namespace asp_MVC_letsTry.Models.Game_help_clasees
             }
             return res;
         }
+        public static bool operator==(ship a, ship b)
+        {
+            if(a.position.Count != b.position.Count)
+            {
+                return false;
+            }
+            if(a.length != b.length)
+            {
+                return false;
+            }
+            for (int i = 0; i < a.length; i++)
+            {
+                if (a.position[i] != b.position[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public static bool operator !=(ship a, ship b)
+        {
+            if(a == b)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

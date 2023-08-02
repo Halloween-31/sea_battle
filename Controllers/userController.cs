@@ -1,5 +1,7 @@
 ﻿using asp_MVC_letsTry.DataBase;
 using asp_MVC_letsTry.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,8 @@ namespace asp_MVC_letsTry.Controllers
         private readonly AppDB_Content _context;
         private readonly ISession _session;
         private readonly IResponseCookies _cookies;
+        private readonly IHttpContextAccessor _http_context;
+
         private int? id;
         private int? CurrentUserId
         {
@@ -43,6 +47,7 @@ namespace asp_MVC_letsTry.Controllers
             _context = context;
             _session = accessor.HttpContext.Session;
             _cookies = accessor.HttpContext.Response.Cookies;
+            _http_context = accessor;
         }
 
         [Authorize]
@@ -87,6 +92,11 @@ namespace asp_MVC_letsTry.Controllers
                 }
                 _context.SaveChanges();
             }
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _http_context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("LogIn", "logInForm");
         }
         [HttpPost]
         public async Task<JsonResult> IsEmailExists([FromBody] string? email)

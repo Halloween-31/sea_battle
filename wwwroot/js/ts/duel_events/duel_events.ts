@@ -12,7 +12,7 @@ for (let i = myBtns.length / 2; i < myBtns.length; i++) {
 
 let enabledDone: boolean = false;
 
-myBtns[0].removeEventListener('click', clickOnMyBtn);
+/*myBtns[0].removeEventListener('click', clickOnMyBtn);
 myBtns[0].addEventListener("click", async () => {
     const _fetch = await fetch("/Game_duel/MyFieldQuick", {
         method: "GET",
@@ -37,7 +37,7 @@ myBtns[0].addEventListener("click", async () => {
     if (!enabledDone) {
         EnableAll();
     }
-});
+});*/
 async function clickOnMyBtn() {
     const pos: number = this.positionXY;
 
@@ -260,13 +260,13 @@ async function AfterAttackUI(message: number, fieldIndex: number) {
         case -1: {      // знищив
             this.style.backgroundColor = 'red';
             const timer = setTimeout(async () => {
-                let deadShipAnswer = await fetch(`/Game_duel/deadEnemyShip/${this.positionXY}`);
+                let deadShipAnswer = await fetch(`/Game_duel/deadEnemyShip?id=${this.positionXY}&fieldIndex=${fieldIndex}`); // 1 - я, 0 - ворог
                 let deadShipArr = await deadShipAnswer.json();
                 if (deadShipArr == -1) {
                     console.log("Не знайшло знищений корабель!");
                     return;
                 }
-                deadShip(this, (fieldIndex == 0 ? 1 : 0), deadShipArr); // 0 - я, 1 - ворог
+                deadShip(this, (fieldIndex == 0 ? 1 : 0), deadShipArr); // 0 - я, 1 - ворог, але приходить навпаки
                 setTimeout(() => {
                     backToenable();
                 }, secondInterval);
@@ -286,10 +286,14 @@ async function AfterAttackUI(message: number, fieldIndex: number) {
 
                     alert("Ви виграли!");
 
-                    // унеможливлюємо нажаття на кнопки                    
-                    for (let i = myBtns.length / 2; i < myBtns.length; i++) {
-                        myBtns[i].disabled = true;
-                    }                    
+                    setTimeout(() => {
+                        clearTimeout(timer);
+                        // унеможливлюємо нажаття на кнопки                    
+                        for (let i = 0; i < myBtns.length; i++) {
+                            myBtns[i].disabled = true;
+                        }                    
+                        disableAll();
+                    }, secondInterval);
                 }
                 else if (fieldIndex == 1) {
                     let divWithH = document.querySelector("main > div > div > div");
@@ -301,13 +305,17 @@ async function AfterAttackUI(message: number, fieldIndex: number) {
 
                     alert("Ви програли!");
 
-                    // унеможливлюємо нажаття на кнопки
-                    for (let i = myBtns.length / 2; i < myBtns.length; i++) {
-                        myBtns[i].disabled = true;
-                    }
+                    setTimeout(() => {
+                        clearTimeout(timer);
+                        // унеможливлюємо нажаття на кнопки
+                        for (let i = 0; i < myBtns.length; i++) {
+                            myBtns[i].disabled = true;
+                        }
+                        disableAll();
+                    }, secondInterval);
 
 
-                    let enemyFieldLication = await fetch("/Game/enemyField");
+                    let enemyFieldLication = await fetch("/Game_duel/enemyField");
                     let resOfEnemyLocation = await enemyFieldLication.json();
 
                     for (let i = 0; i < resOfEnemyLocation.length; i++) {

@@ -20,6 +20,7 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
         public ActionResult GameField()
         {
             game = new Game();
+            game.enemy_battle_field.creatingField();
             _session.Set<Game>("game", game);
 
             // очищення фалйу
@@ -85,11 +86,13 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 return Json(data);
             }
         }
-        /*public bool checkIsFull()
+        public bool checkIsFull()
         {
+            game = _session.Get<Game>("game");
             game.my_battle_field.isFull();
+            _session.Set<Game>("game", game);
             return game.my_battle_field.full;
-        }*/
+        }
         [HttpPost]
         public ActionResult checkEnemy([FromBody] int[][] data)
         {
@@ -261,7 +264,7 @@ namespace asp_MVC_letsTry.Controllers.GameControllers
                 }
             }
 
-            if (deadShip == null)
+            if (deadShip is null)
             {
                 return Json(-1);
             }

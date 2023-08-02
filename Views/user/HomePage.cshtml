@@ -6,7 +6,20 @@
 
 <div>
     <div>
-        <h1>Your page</h1>
+        <div style="display: flex; justify-content:space-between;">
+            <h1>Your page</h1>
+            @using (Html.BeginForm("Logout", "user")) 
+            {
+                <button id="logout" style="background-color: #0095ff;
+        border: 1px solid;
+        border-radius: 3px;        
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;">
+                    Logout
+                </button>
+            }
+        </div>
         <div>
             <hr />
             <dl class="row">

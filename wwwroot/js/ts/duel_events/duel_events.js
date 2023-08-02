@@ -45,39 +45,32 @@ for (var i = myBtns.length / 2; i < myBtns.length; i++) {
     myBtns[i].addEventListener("click", clickAtack);
 }
 var enabledDone = false;
-myBtns[0].removeEventListener('click', clickOnMyBtn);
-myBtns[0].addEventListener("click", function () { return __awaiter(void 0, void 0, void 0, function () {
-    var _fetch, res, arrShips;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/Game_duel/MyFieldQuick", {
-                    method: "GET",
-                    headers: {
-                        'Accept': 'application/json; charset=utf-8',
-                        'Content-Type': 'application/json;charset=UTF-8'
-                    }
-                })];
-            case 1:
-                _fetch = _a.sent();
-                return [4 /*yield*/, _fetch.json()];
-            case 2:
-                res = _a.sent();
-                arrShips = res.split(/[\ '\n']/).filter(function (word) {
-                    if (word != "") {
-                        return word;
-                    }
-                });
-                arrShips.forEach(function (item) {
-                    var num = parseInt(item);
-                    myBtns[num].style.background = 'darkslateblue';
-                });
-                if (!enabledDone) {
-                    EnableAll();
-                }
-                return [2 /*return*/];
+/*myBtns[0].removeEventListener('click', clickOnMyBtn);
+myBtns[0].addEventListener("click", async () => {
+    const _fetch = await fetch("/Game_duel/MyFieldQuick", {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json; charset=utf-8',
+            'Content-Type': 'application/json;charset=UTF-8'
         }
     });
-}); });
+    const res: string = await _fetch.json();
+
+    const arrShips: string[] = res.split(/[\ '\n']/).filter((word) => {
+        if (word != "") {
+            return word;
+        }
+    });
+
+    arrShips.forEach(item => {
+        const num: number = parseInt(item);
+        myBtns[num].style.background = 'darkslateblue';
+    });
+
+    if (!enabledDone) {
+        EnableAll();
+    }
+});*/
 function clickOnMyBtn() {
     return __awaiter(this, void 0, void 0, function () {
         var pos, XY_obj, urlParams, sender, responce, answer;
@@ -268,7 +261,7 @@ function disableAll() {
 }
 function AfterAttackUI(message, fieldIndex) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstInterval, secondInterval, _a, timer_1, timer_2, timer, isEnd, isEndRes, divWithH, h3ToInsert, i, divWithH, h3ToInsert, i, enemyFieldLication, resOfEnemyLocation, i, j;
+        var firstInterval, secondInterval, _a, timer_1, timer_2, timer_3, isEnd, isEndRes, divWithH, h3ToInsert, divWithH, h3ToInsert, enemyFieldLication, resOfEnemyLocation, i, j;
         var _this = this;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -326,11 +319,11 @@ function AfterAttackUI(message, fieldIndex) {
                     return [3 /*break*/, 11];
                 case 3:
                     this.style.backgroundColor = 'red';
-                    timer = setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
+                    timer_3 = setTimeout(function () { return __awaiter(_this, void 0, void 0, function () {
                         var deadShipAnswer, deadShipArr;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, fetch("/Game_duel/deadEnemyShip/".concat(this.positionXY))];
+                                case 0: return [4 /*yield*/, fetch("/Game_duel/deadEnemyShip?id=".concat(this.positionXY, "&fieldIndex=").concat(fieldIndex))];
                                 case 1:
                                     deadShipAnswer = _a.sent();
                                     return [4 /*yield*/, deadShipAnswer.json()];
@@ -340,7 +333,7 @@ function AfterAttackUI(message, fieldIndex) {
                                         console.log("Не знайшло знищений корабель!");
                                         return [2 /*return*/];
                                     }
-                                    deadShip(this, (fieldIndex == 0 ? 1 : 0), deadShipArr); // 0 - я, 1 - ворог
+                                    deadShip(this, (fieldIndex == 0 ? 1 : 0), deadShipArr); // 0 - я, 1 - ворог, але приходить навпаки
                                     setTimeout(function () {
                                         backToenable();
                                     }, secondInterval);
@@ -361,10 +354,14 @@ function AfterAttackUI(message, fieldIndex) {
                     h3ToInsert.textContent = "Ви виграли!";
                     divWithH.append(h3ToInsert);
                     alert("Ви виграли!");
-                    // унеможливлюємо нажаття на кнопки                    
-                    for (i = myBtns.length / 2; i < myBtns.length; i++) {
-                        myBtns[i].disabled = true;
-                    }
+                    setTimeout(function () {
+                        clearTimeout(timer_3);
+                        // унеможливлюємо нажаття на кнопки                    
+                        for (var i = 0; i < myBtns.length; i++) {
+                            myBtns[i].disabled = true;
+                        }
+                        disableAll();
+                    }, secondInterval);
                     return [3 /*break*/, 9];
                 case 6:
                     if (!(fieldIndex == 1)) return [3 /*break*/, 9];
@@ -373,11 +370,15 @@ function AfterAttackUI(message, fieldIndex) {
                     h3ToInsert.textContent = "Ви програли!";
                     divWithH.append(h3ToInsert);
                     alert("Ви програли!");
-                    // унеможливлюємо нажаття на кнопки
-                    for (i = myBtns.length / 2; i < myBtns.length; i++) {
-                        myBtns[i].disabled = true;
-                    }
-                    return [4 /*yield*/, fetch("/Game/enemyField")];
+                    setTimeout(function () {
+                        clearTimeout(timer_3);
+                        // унеможливлюємо нажаття на кнопки
+                        for (var i = 0; i < myBtns.length; i++) {
+                            myBtns[i].disabled = true;
+                        }
+                        disableAll();
+                    }, secondInterval);
+                    return [4 /*yield*/, fetch("/Game_duel/enemyField")];
                 case 7:
                     enemyFieldLication = _b.sent();
                     return [4 /*yield*/, enemyFieldLication.json()];

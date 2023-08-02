@@ -14,7 +14,7 @@ namespace asp_MVC_letsTry.Models.Game_classes
             enemy_battle_field = new battle_field();
 
 
-            enemy_battle_field.creatingField();
+            //enemy_battle_field.creatingField();
 
             //isConnected = false;
         }
